@@ -1,0 +1,37 @@
+@use "/src/styles/utils.scss" as *;
+
+.details {
+  @include blue-border-box;
+}
+.details__route {
+  @include blue-border-box;
+}
+.details-card {
+  @include blue-border-box;
+}
+.details-card__header {
+  @include blue-border-box;
+}
+.details-card__images-container {
+  @include blue-border-box;
+}
+.details-card__info {
+  @include blue-border-box;
+}
+.details-card__info-block {
+  @include blue-border-box;
+}
+.info-block__header {
+}
+.info-block__content {
+}
+
+.details-card__controls {
+  @include blue-border-box;
+}
+.details-card__price {
+  @include blue-border-box;
+}
+.details__button {
+  @include blue-button;
+}
