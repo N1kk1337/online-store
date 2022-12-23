@@ -1,3 +1,4 @@
+// TODO move styles here
 const Main = () => {
   return (
     <div className="main-page">
