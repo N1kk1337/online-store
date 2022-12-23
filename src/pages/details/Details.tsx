@@ -1,7 +1,7 @@
 import "./details.scss";
 const Details = () => {
   return (
-    <div className="details">
+    <div className="details container">
       <div className="details__route">
         <p>STORE - SMARTPHONES - APPLE - IPHONE 9</p>
       </div>

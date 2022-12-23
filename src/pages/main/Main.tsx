@@ -1,7 +1,8 @@
 // TODO move styles here
+import "./Main";
 const Main = () => {
   return (
-    <div className="main-page">
+    <div className="main-page container">
       <div className="main-page__filters">
         <p className="btn">Reset Filters</p> <p className="btn">Copy Link</p>
         <div className="filters filters__category">Category</div>

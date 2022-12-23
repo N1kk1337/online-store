@@ -15,3 +15,11 @@ $blue: #2093e0;
   color: $white;
   background-color: $blue;
 }
+
+.container {
+  max-width: 1600px;
+  min-width: 1000px;
+  margin: 0 15px;
+  display: flex;
+  justify-content: center;
+}
