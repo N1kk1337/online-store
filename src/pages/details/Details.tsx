@@ -1,5 +1,4 @@
-import React from "react";
-import "details.scss";
+import "./details.scss";
 const Details = () => {
   return (
     <div className="details">

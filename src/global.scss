@@ -1,0 +1,126 @@
+@use "/src/styles/reset.scss";
+@use "/src/styles/utils.scss" as *;
+
+// global
+
+div {
+  // border: 1px solid red;
+  margin: 4px 4px;
+}
+
+.wrapper {
+  margin: 0; //temp
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $white;
+}
+
+.container {
+  max-width: 1600px;
+  min-width: 1000px;
+  margin: 0 15px;
+  display: flex;
+  justify-content: center;
+}
+
+// temporary layout building helper
+
+.header {
+  padding: 4px;
+  background-color: $blue;
+  width: 100%; //fallback
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.header__nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav__item {
+  border: 1px solid $blue;
+  min-width: 20px;
+}
+.main-page {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.main-page__filters {
+  width: 30%;
+}
+.btn {
+  background-color: $blue;
+  color: $white;
+  border-radius: 10px;
+  padding: 4px;
+}
+.filters {
+  @include blue-border-box;
+}
+.filters__category {
+}
+.filters__brand {
+}
+.filters__price {
+}
+.filters__stock {
+}
+.main-page__product-list {
+  @include blue-border-box;
+  width: 100%;
+}
+.product-list__header {
+  @include blue-border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-list__sort-options {
+}
+.product-list__found {
+}
+.product-list__search-container {
+}
+.search-btn {
+}
+.product-list__view-switch {
+  height: 20px; //temp
+  width: 20px;
+  background-color: $blue;
+}
+.product-container {
+  display: flex;
+}
+.product-card {
+  @include blue-border-box;
+  width: 25%;
+  & img {
+    // TODO make real layout
+    max-width: 200px;
+  }
+}
+.footer {
+  background-color: $blue;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.footer__text {
+  border: 1px solid $blue;
+  min-width: 20px;
+}
