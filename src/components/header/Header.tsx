@@ -1,4 +1,6 @@
 import "./Header.scss";
+
+// TODO add type
 const Header = () => {
   return (
     <header className="header">

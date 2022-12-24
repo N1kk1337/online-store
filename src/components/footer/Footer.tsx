@@ -1,4 +1,6 @@
 import "./Footer.scss";
+
+// TODO add type
 const Footer = () => {
   return (
     <footer className="footer">

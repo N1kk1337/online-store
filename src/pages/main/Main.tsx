@@ -1,5 +1,4 @@
-// TODO move styles here
-import "./Main";
+import "./Main.scss";
 const Main = () => {
   return (
     <div className="main-page container">
