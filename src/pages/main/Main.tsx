@@ -1,3 +1,6 @@
+import React from "react";
+import ProductCard from "../../components/productCard/productCard";
+import products from "../../assets/data/products";
 import "./Main.scss";
 const Main = () => {
   return (
@@ -24,39 +27,15 @@ const Main = () => {
           <p className="product-list__view-switch"></p>
         </div>
         <div className="product-container">
-          {/* placeholder, TODO do as separate component */}
-          <div className="product-card">
-            <a href="/details">
-              <img
-                src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-                alt=""
+          {products.map((item) => (
+            <div>
+              <ProductCard
+                title={item.title}
+                thumbnail={item.thumbnail}
+                description={item.description}
               />
-            </a>
-          </div>
-          <div className="product-card">
-            <a href="/details">
-              <img
-                src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-                alt=""
-              />
-            </a>
-          </div>
-          <div className="product-card">
-            <a href="/details">
-              <img
-                src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-                alt=""
-              />
-            </a>
-          </div>
-          <div className="product-card">
-            <a href="/details">
-              <img
-                src="https://i.dummyjson.com/data/products/1/thumbnail.jpg"
-                alt=""
-              />
-            </a>
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

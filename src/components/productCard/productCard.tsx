@@ -1,22 +1,20 @@
 import React, { Component } from "react";
 import "./productCard.scss";
 
-type productCardProps = {
-  id: number;
+type Props = {
   title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: number;
-  brand: string;
-  category: string;
   thumbnail: string;
-  images: string[];
+  description: string;
 };
 
-export default class productCard extends Component<productCardProps> {
-  render() {
-    return <div>productCard</div>;
-  }
+function ProductCard({ title, thumbnail, description }: Props) {
+  return (
+    <div className="productCard">
+      <h1 className="productCard__title">{title}</h1>
+      <img className="productCard__img" src={thumbnail} alt="img product" />
+      <p className="productCard__descr">{description}</p>
+    </div>
+  );
 }
+
+export default ProductCard;
