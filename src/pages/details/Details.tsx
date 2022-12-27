@@ -1,11 +1,12 @@
 import React from "react";
+
 import "./details.scss";
 
 const Details = () => {
   return (
     <div className="details container">
       <div className="details__route">
-        <p>STORE - SMARTPHONES - APPLE - IPHONE 9</p>
+        <p></p>
       </div>
       <div className="details-card">
         <div className="details-card__header">iPHONE 9</div>

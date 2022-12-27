@@ -17,7 +17,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="details/:detailsId" element={<Details />} />
+          <Route path="/:detailsId" element={<Details />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/details" element={<Details />} />
           <Route path="/404" element={<Error404 />} />
