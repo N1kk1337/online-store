@@ -1,3 +1,4 @@
+import React from "react";
 import "./details.scss";
 
 const Details = () => {

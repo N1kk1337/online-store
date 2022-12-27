@@ -1,8 +1,16 @@
 import React from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
+import { useNavigate } from "react-router-dom";
+
 import "./Main.scss";
+
 const Main = () => {
+  const navigate = useNavigate();
+  const onClick = (id: string | number) => {
+    navigate(id.toString());
+  };
+
   return (
     <div className="main-page container">
       <div className="main-page__filters">
@@ -28,7 +36,11 @@ const Main = () => {
         </div>
         <div className="product-container">
           {products.map((item) => (
-            <div>
+            <div
+              key={item.id}
+              onClick={() => onClick(item.id)}
+              className="product-container__wrapper"
+            >
               <ProductCard
                 title={item.title}
                 thumbnail={item.thumbnail}
