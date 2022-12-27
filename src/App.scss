@@ -1,0 +1,19 @@
+@use "/src/styles/reset.scss";
+@use "/src/styles/utils.scss" as *;
+div {
+  // TODO delete after developing more awesome layout
+  // temporary layout building helper
+  // border: 1px solid red;
+  margin: 4px 4px;
+}
+
+.wrapper {
+  margin: 0; //temp
+  min-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $white;
+}
