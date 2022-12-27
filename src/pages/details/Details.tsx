@@ -1,4 +1,5 @@
 import "./details.scss";
+
 const Details = () => {
   return (
     <div className="details container">
