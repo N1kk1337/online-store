@@ -5,14 +5,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Main.scss";
+import Product from "../../assets/model/product";
 
 const Main = () => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
-  const [searchResults, setSearchResults] = React.useState([]);
+  const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
   useEffect(() => {
     const results = products.filter((item) =>
