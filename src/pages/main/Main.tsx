@@ -10,6 +10,12 @@ import Product from "../../assets/model/product";
 const Main = () => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
+
+  const [checked, setChecked] = useState(false);
+  const checkboxChange = () => {
+    setChecked(!checked);
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
@@ -28,9 +34,16 @@ const Main = () => {
 
   return (
     <div className="main-page container">
-      <div className="main-page__filters">
+      <div className="filters">
         <p className="btn">Reset Filters</p> <p className="btn">Copy Link</p>
-        <div className="filters filters__category">Category</div>
+        <div className="filters__brand">
+          {products.map((it) => (
+            <label>
+              {it.brand}
+              <input id={it.category} type="checkbox" />
+            </label>
+          ))}
+        </div>
         <div className="filters filters__brand">Brand</div>
         <div className="filters filters__price">Price</div>
         <div className="filters filters__stock">Stock</div>
@@ -38,7 +51,7 @@ const Main = () => {
       <div className="main-page__product-list">
         <div className="product-list__header">
           <p className="btn product-list__sort-options">Sort options:</p>
-          <p className="product-list__found">Found:</p>
+          <p className="product-list__found">Found:{searchResults.length}</p>
           <div className="product-list__search-container">
             <form action="">
               <input
