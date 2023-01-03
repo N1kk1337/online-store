@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Main.scss";
 
 const Main = () => {
+  const [value, setValue] = useState("");
   const navigate = useNavigate();
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+  const [searchResults, setSearchResults] = React.useState([]);
+
+  useEffect(() => {
+    const results = products.filter((item) =>
+      item.title.toLocaleLowerCase().includes(value)
+    );
+    setSearchResults(results);
+  }, [value]);
+
   const onClick = (id: string | number) => {
     navigate(id.toString());
   };
@@ -26,16 +40,18 @@ const Main = () => {
           <p className="product-list__found">Found:</p>
           <div className="product-list__search-container">
             <form action="">
-              <input type="text" placeholder="Search.." name="search" />
-              <button type="submit">
-                <i className="search-btn"></i>
-              </button>
+              <input
+                value={value}
+                onChange={handleChange}
+                placeholder="Search.."
+                name="search"
+              />
             </form>
           </div>
           <p className="product-list__view-switch"></p>
         </div>
         <div className="product-container">
-          {products.map((item) => (
+          {searchResults.map((item) => (
             <div
               key={item.id}
               onClick={() => onClick(item.id)}
