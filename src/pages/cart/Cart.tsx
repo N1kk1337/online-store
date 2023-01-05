@@ -1,5 +1,11 @@
+import "./Cart.scss";
+
 const Cart = () => {
-  return <h1>HERE WILL BE CART</h1>;
+  return (
+    <div className="cart">
+      <h1>111</h1>
+    </div>
+  );
 };
 
 export default Cart;
