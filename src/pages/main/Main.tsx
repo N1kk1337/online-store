@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Main.scss";
 import Product from "../../assets/model/product";
+import PriceSlider from "../../components/priceSlider/PriceSlider";
 
 const Main = () => {
   // filters
@@ -113,7 +114,9 @@ const Main = () => {
             </label>
           ))}
         </div>
-        <div className="filters filters__price">Price</div>
+        <div className="filters filters__price">
+          Price: <PriceSlider />
+        </div>
         <div className="filters filters__stock">Stock</div>
       </div>
       <div className="main-page__product-list">
