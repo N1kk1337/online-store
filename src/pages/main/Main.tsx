@@ -8,43 +8,111 @@ import "./Main.scss";
 import Product from "../../assets/model/product";
 
 const Main = () => {
-  const [value, setValue] = useState("");
-  const navigate = useNavigate();
-
-  const [checked, setChecked] = useState(false);
-  const checkboxChange = () => {
-    setChecked(!checked);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
+  // filters
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [searchFieldValue, setSearchFieldValue] = useState("");
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
-  useEffect(() => {
-    const results = products.filter((item) =>
-      item.title.toLocaleLowerCase().includes(value)
-    );
-    setSearchResults(results);
-  }, [value]);
+  const brands: Set<string> = new Set(products.map((product) => product.brand));
+  const brandsItems = Array.from(brands);
+  const categories: Set<string> = new Set(
+    products.map((product) => product.category)
+  );
+  const categoryItems = Array.from(categories);
 
-  const onClick = (id: string | number) => {
+  const handleReset = () => {
+    setSelectedBrands([]);
+    setSelectedCategories([]);
+    setSearchFieldValue("");
+  };
+
+  const handleBrandsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedBrand = e.target!.value;
+    if (selectedBrands.includes(selectedBrand)) {
+      setSelectedBrands(
+        selectedBrands.filter((option) => option !== selectedBrand)
+      );
+    } else {
+      setSelectedBrands([...selectedBrands, selectedBrand]);
+    }
+  };
+
+  const handleCategoriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedCategory = e.target!.value;
+    if (selectedCategories.includes(selectedCategory)) {
+      setSelectedCategories(
+        selectedCategories.filter((option) => option !== selectedCategory)
+      );
+    } else {
+      setSelectedCategories([...selectedCategories, selectedCategory]);
+    }
+  };
+
+  // search field
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchFieldValue(event.target.value);
+  };
+
+  // final showdown
+  useEffect(() => {
+    let results = products
+      .filter((item) =>
+        item.title.toLocaleLowerCase().includes(searchFieldValue)
+      )
+      .filter((item) => {
+        if (selectedBrands.length === 0) return item;
+        else return selectedBrands.includes(item.brand);
+      })
+      .filter((item) => {
+        if (selectedCategories.length === 0) return item;
+        else return selectedCategories.includes(item.category);
+      });
+    setSearchResults(results);
+  }, [searchFieldValue, selectedBrands, selectedCategories]);
+
+  // navigate to individual product page
+  const navigate = useNavigate();
+  const onProductClick = (id: string | number) => {
     navigate(id.toString());
   };
 
   return (
     <div className="main-page container">
       <div className="filters">
-        <p className="btn">Reset Filters</p> <p className="btn">Copy Link</p>
-        <div className="filters__brand">
-          {products.map((it) => (
-            <label>
-              {it.brand}
-              <input id={it.category} type="checkbox" />
+        <button className="btn" onClick={handleReset}>
+          Reset Filters
+        </button>{" "}
+        <p className="btn">Copy Link</p>
+        <div className="filters filters__brand">
+          Brand:
+          {brandsItems.map((brand) => (
+            <label key={brand}>
+              <input
+                value={brand}
+                checked={selectedBrands.includes(brand)}
+                type="checkbox"
+                onChange={handleBrandsChange}
+              />
+              {brand}
             </label>
           ))}
         </div>
-        <div className="filters filters__brand">Brand</div>
+        <div className="filters filters__category">
+          Category:
+          {categoryItems.map((category) => (
+            <label key={category}>
+              <input
+                value={category}
+                checked={selectedCategories.includes(category)}
+                type="checkbox"
+                onChange={handleCategoriesChange}
+              />
+              {category}
+            </label>
+          ))}
+        </div>
         <div className="filters filters__price">Price</div>
         <div className="filters filters__stock">Stock</div>
       </div>
@@ -55,8 +123,8 @@ const Main = () => {
           <div className="product-list__search-container">
             <form action="">
               <input
-                value={value}
-                onChange={handleChange}
+                value={searchFieldValue}
+                onChange={handleSearchChange}
                 placeholder="Search.."
                 name="search"
               />
@@ -68,7 +136,7 @@ const Main = () => {
           {searchResults.map((item) => (
             <div
               key={item.id}
-              onClick={() => onClick(item.id)}
+              onClick={() => onProductClick(item.id)}
               className="product-container__wrapper"
             >
               <ProductCard
