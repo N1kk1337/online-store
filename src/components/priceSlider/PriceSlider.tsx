@@ -93,8 +93,6 @@ const PriceSlider: FC<PriceSliderProps> = ({ min, max, onChange }) => {
       <div className="slider">
         <div className="slider__track"></div>
         <div ref={range} className="slider__range"></div>
-        {/* <div className="slider__left-value">{minVal}</div>
-        <div className="slider__right-value">{maxVal}</div> */}
       </div>
     </div>
   );

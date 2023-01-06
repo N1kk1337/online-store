@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./Main.scss";
 import Product from "../../assets/model/product";
@@ -13,7 +13,10 @@ const Main = () => {
   // TODO move to one reusable component
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [searchFieldValue, setSearchFieldValue] = useState("");
+  const [queryParams, setQueryParams] = useSearchParams({ search: "" });
+  const [searchFieldValue, setSearchFieldValue] = useState<string>(
+    queryParams.get("search") || ""
+  );
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
   const brands: Set<string> = new Set(products.map((product) => product.brand));
@@ -27,6 +30,7 @@ const Main = () => {
     setSelectedBrands([]);
     setSelectedCategories([]);
     setSearchFieldValue("");
+    setQueryParams("");
   };
 
   const handleBrandsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,10 +59,11 @@ const Main = () => {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchFieldValue(event.target.value);
+    setQueryParams("search=" + event.target.value);
   };
 
   // final showdown
-  useEffect(() => {
+  const applyFilters = () => {
     let results = products
       .filter((item) =>
         item.title.toLocaleLowerCase().includes(searchFieldValue)
@@ -72,6 +77,10 @@ const Main = () => {
         else return selectedCategories.includes(item.category);
       });
     setSearchResults(results);
+  };
+
+  useEffect(() => {
+    applyFilters();
   }, [searchFieldValue, selectedBrands, selectedCategories]);
 
   // navigate to individual product page
@@ -132,9 +141,9 @@ const Main = () => {
           <p className="btn product-list__sort-options">Sort options:</p>
           <p className="product-list__found">Found:{searchResults.length}</p>
           <div className="product-list__search-container">
-            <form action="">
+            <form>
               <input
-                value={searchFieldValue}
+                value={queryParams.get("search") || ""}
                 onChange={handleSearchChange}
                 placeholder="Search.."
                 name="search"
