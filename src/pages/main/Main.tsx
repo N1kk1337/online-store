@@ -10,6 +10,7 @@ import PriceSlider from "../../components/priceSlider/PriceSlider";
 
 const Main = () => {
   // filters
+  // TODO move to one reusable component
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [searchFieldValue, setSearchFieldValue] = useState("");
@@ -115,7 +116,14 @@ const Main = () => {
           ))}
         </div>
         <div className="filters filters__price">
-          Price: <PriceSlider />
+          Price:
+          <PriceSlider
+            min={0}
+            max={1000}
+            onChange={({ min, max }: { min: number; max: number }) =>
+              console.log(`min = ${min}, max = ${max}`)
+            }
+          />
         </div>
         <div className="filters filters__stock">Stock</div>
       </div>

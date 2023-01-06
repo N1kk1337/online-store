@@ -1,73 +1,107 @@
-.form-group {
+@use "/src/styles/utils.scss" as *;
+
+.slider-container {
+  height: 30px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-label {
-  margin-right: 10px;
+.slider {
+  position: relative;
+  width: 200px;
 }
 
-input[type="range"] {
-  -webkit-appearance: none;
+.slider__track,
+.slider__range,
+.slider__left-value,
+.slider__right-value {
+  position: absolute;
+}
+
+.slider__track,
+.slider__range {
+  border-radius: 3px;
+  height: 5px;
+}
+
+.slider__track {
+  background-color: #ced4da;
   width: 100%;
-  margin: 0;
-  height: 20px;
-  background: transparent;
+  z-index: 1;
+}
+
+.slider__range {
+  background-color: $blue;
+  z-index: 2;
+}
+
+.slider__left-value,
+.slider__right-value {
+  color: #dee2e6;
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.slider__left-value {
+  left: 6px;
+}
+
+.slider__right-value {
+  right: -4px;
+}
+
+/* Removing the default appearance */
+.thumb,
+.thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.thumb {
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+  width: 200px;
   outline: none;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  background: #4caf50;
-  cursor: pointer;
+.thumb--zindex-3 {
+  z-index: 3;
+}
+
+.thumb--zindex-4 {
+  z-index: 4;
+}
+
+.thumb--zindex-5 {
+  z-index: 5;
+}
+
+/* For Chrome browsers */
+.thumb::-webkit-slider-thumb {
+  background-color: $black;
+  border: none;
   border-radius: 50%;
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  background: #4caf50;
+  box-shadow: 0 0 1px 1px #ced4da;
   cursor: pointer;
-  border-radius: 50%;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
 }
 
-input[type="range"]::-ms-thumb {
-  width: 20px;
-  height: 20px;
-  background: #4caf50;
+/* For Firefox browsers */
+.thumb::-moz-range-thumb {
+  background-color: $black;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
   cursor: pointer;
-  border-radius: 50%;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 4px;
-  background: #ddd;
-  border-radius: 2px;
-}
-
-input[type="range"]::-moz-range-track {
-  width: 100%;
-  height: 4px;
-  background: #ddd;
-  border-radius: 2px;
-}
-
-input[type="range"]::-ms-track {
-  width: 100%;
-  height: 4px;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-
-.dual-slider {
-  width: 50%;
-}
-
-.dual-slider:first-of-type {
-  margin-right: 10px;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
 }
