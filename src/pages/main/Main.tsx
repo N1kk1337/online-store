@@ -2,36 +2,53 @@ import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import "./Main.scss";
 import Product from "../../assets/model/product";
 import PriceSlider from "../../components/priceSlider/PriceSlider";
-import CheckboxFilter from "../../components/checkboxFilter/CheckboxFilter";
+import QueryData from "../../components/queryData/QueryData";
+import CheckboxList from "../../components/checkboxList/CheckboxList";
+import { SortOptions } from "../../types/types";
 
 const Main = () => {
   // filters
   // TODO move to one reusable component
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
+
+  const [selectedBrands, setSelectedBrands] = useState<string[]>(
+    queryParams.get("brands") !== null
+      ? queryParams.get("brands")!.split(",")
+      : []
+  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    queryParams.get("brands") !== null
+      ? queryParams.get("categories")!.split(",")
+      : []
+  );
   const [searchFieldValue, setSearchFieldValue] = useState<string>(
     queryParams.get("search") || ""
   );
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
+  const [sort, setSort] = useState<SortOptions>("By Name");
+
   const brands: Set<string> = new Set(products.map((product) => product.brand));
+
   const brandsItems = Array.from(brands);
   const categories: Set<string> = new Set(
     products.map((product) => product.category)
   );
   const categoryItems = Array.from(categories);
 
+  //reset all filters button
   const handleReset = () => {
     setSelectedBrands([]);
     setSelectedCategories([]);
     setSearchFieldValue("");
-    setQueryParams("");
+    setSort("By Name");
+    queryObject.reset();
+    setQueryParams(queryObject.generateUrl());
   };
 
   const handleBrandsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +60,9 @@ const Main = () => {
     } else {
       setSelectedBrands([...selectedBrands, selectedBrand]);
     }
+
+    queryObject.brands = selectedBrands;
+    setQueryParams(queryObject.generateUrl());
   };
 
   const handleCategoriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,12 +74,34 @@ const Main = () => {
     } else {
       setSelectedCategories([...selectedCategories, selectedCategory]);
     }
+    queryObject.categories = selectedCategories;
+    setQueryParams(queryObject.generateUrl());
   };
+
+  // sort selector
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(event.target.value as SortOptions);
+    queryObject.sort = event.target.value as SortOptions;
+    setQueryParams(queryObject.generateUrl());
+  };
+
+  // URL generation
+  const queryObject = new QueryData(
+    searchFieldValue,
+    selectedBrands,
+    selectedCategories,
+    0,
+    0,
+    0,
+    0,
+    "By Name"
+  );
 
   // search field
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchFieldValue(event.target.value);
-    setQueryParams("search=" + event.target.value);
+    queryObject.search = event.target.value;
+    setQueryParams(queryObject.generateUrl());
   };
 
   // final showdown
@@ -76,6 +118,10 @@ const Main = () => {
         if (selectedCategories.length === 0) return item;
         else return selectedCategories.includes(item.category);
       });
+    queryObject.brands = selectedBrands;
+    queryObject.categories = selectedCategories;
+
+    setQueryParams(queryObject.generateUrl());
     setSearchResults(results);
   };
 
@@ -96,33 +142,41 @@ const Main = () => {
           Reset Filters
         </button>{" "}
         <p className="btn">Copy Link</p>
-        <CheckboxFilter
+        <CheckboxList
           name="Brand"
           items={brandsItems}
           checkedItems={selectedBrands}
           handleChange={handleBrandsChange}
+          currentProducts={searchResults}
+          maxProducts={products}
         />
-        <CheckboxFilter
+        <CheckboxList
           name="Category"
           items={categoryItems}
           checkedItems={selectedCategories}
           handleChange={handleCategoriesChange}
+          currentProducts={searchResults}
+          maxProducts={products}
         />
-        <div className="filters filters__price">
-          Price:
-          <PriceSlider
-            min={0}
-            max={1000}
-            onChange={({ min, max }: { min: number; max: number }) =>
-              console.log(`min = ${min}, max = ${max}`)
-            }
-          />
-        </div>
+        <PriceSlider
+          name="Price"
+          min={0}
+          max={1000}
+          onChange={({ min, max }: { min: number; max: number }) =>
+            console.log(`min = ${min}, max = ${max}`)
+          }
+        />
         <div className="filters filters__stock">Stock</div>
       </div>
       <div className="main-page__product-list">
         <div className="product-list__header">
-          <p className="btn product-list__sort-options">Sort options:</p>
+          <p className="btn product-list__sort-options">
+            Sort{" "}
+            <select value={sort} onChange={handleSortChange}>
+              <option value="By Name">By Name</option>
+              <option value="By Price">By Price</option>
+            </select>
+          </p>
           <p className="product-list__found">Found:{searchResults.length}</p>
           <div className="product-list__search-container">
             <form>
