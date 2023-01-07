@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import "./Main.scss";
 import Product from "../../assets/model/product";
 import PriceSlider from "../../components/priceSlider/PriceSlider";
+import CheckboxFilter from "../../components/checkboxFilter/CheckboxFilter";
 
 const Main = () => {
   // filters
@@ -56,7 +57,6 @@ const Main = () => {
   };
 
   // search field
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchFieldValue(event.target.value);
     setQueryParams("search=" + event.target.value);
@@ -96,34 +96,18 @@ const Main = () => {
           Reset Filters
         </button>{" "}
         <p className="btn">Copy Link</p>
-        <div className="filters filters__brand">
-          Brand:
-          {brandsItems.map((brand) => (
-            <label key={brand}>
-              <input
-                value={brand}
-                checked={selectedBrands.includes(brand)}
-                type="checkbox"
-                onChange={handleBrandsChange}
-              />
-              {brand}
-            </label>
-          ))}
-        </div>
-        <div className="filters filters__category">
-          Category:
-          {categoryItems.map((category) => (
-            <label key={category}>
-              <input
-                value={category}
-                checked={selectedCategories.includes(category)}
-                type="checkbox"
-                onChange={handleCategoriesChange}
-              />
-              {category}
-            </label>
-          ))}
-        </div>
+        <CheckboxFilter
+          name="Brand"
+          items={brandsItems}
+          checkedItems={selectedBrands}
+          handleChange={handleBrandsChange}
+        />
+        <CheckboxFilter
+          name="Category"
+          items={categoryItems}
+          checkedItems={selectedCategories}
+          handleChange={handleCategoriesChange}
+        />
         <div className="filters filters__price">
           Price:
           <PriceSlider
