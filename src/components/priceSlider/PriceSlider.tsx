@@ -55,6 +55,7 @@ const PriceSlider: FC<PriceSliderProps> = ({ min, max, onChange, name }) => {
   useEffect(() => {
     onChange({ min: minVal, max: maxVal });
   }, [minVal, maxVal, onChange]);
+  // adding onChange will trigger infinite loop?
 
   const handleClassName = (mVal: number) => {
     return mVal > max - 100

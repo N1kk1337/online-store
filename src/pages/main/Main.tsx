@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
 import { useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./Main.scss";
 import Product from "../../assets/model/product";
@@ -22,7 +22,7 @@ const Main = () => {
       : []
   );
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    queryParams.get("brands") !== null
+    queryParams.get("categories") !== null
       ? queryParams.get("categories")!.split(",")
       : []
   );
@@ -31,7 +31,16 @@ const Main = () => {
   );
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
-  const [sort, setSort] = useState<SortOptions>("By Name");
+  const [sort, setSort] = useState<SortOptions>(
+    (queryParams.get("sort") as SortOptions) || "By Name"
+  );
+
+  const [minPrice, setMinPrice] = useState<number>(
+    Number(queryParams.get("minPrice"))
+  );
+  const [maxPrice, setMaxPrice] = useState<number>(
+    Number(queryParams.get("maxPrice"))
+  );
 
   const brands: Set<string> = new Set(products.map((product) => product.brand));
 
@@ -94,7 +103,7 @@ const Main = () => {
     0,
     0,
     0,
-    "By Name"
+    sort
   );
 
   // search field
@@ -104,8 +113,23 @@ const Main = () => {
     setQueryParams(queryObject.generateUrl());
   };
 
+  //price slider
+  const handlePriceChange = useCallback(
+    ({ min, max }: { min: number; max: number }) => {
+      console.log(min);
+      console.log(max);
+
+      setMinPrice(min);
+      setMaxPrice(max);
+      queryObject.minPrice = min;
+      queryObject.maxPrice = max;
+      setQueryParams(queryObject.generateUrl());
+    },
+    [minPrice, maxPrice]
+  );
+
   // final showdown
-  const applyFilters = () => {
+  useEffect(() => {
     let results = products
       .filter((item) =>
         item.title.toLocaleLowerCase().includes(searchFieldValue)
@@ -118,16 +142,16 @@ const Main = () => {
         if (selectedCategories.length === 0) return item;
         else return selectedCategories.includes(item.category);
       });
+    if (sort === "By Name")
+      results = results.sort((a, b) => a.title.localeCompare(b.title));
+    else results = results.sort((a, b) => a.price - b.price);
     queryObject.brands = selectedBrands;
     queryObject.categories = selectedCategories;
 
     setQueryParams(queryObject.generateUrl());
     setSearchResults(results);
-  };
-
-  useEffect(() => {
-    applyFilters();
-  }, [searchFieldValue, selectedBrands, selectedCategories]);
+  }, [searchFieldValue, selectedBrands, selectedCategories, sort]);
+  // TODO should I add 'queryObject' and 'setQueryParams' ?
 
   // navigate to individual product page
   const navigate = useNavigate();
@@ -160,11 +184,9 @@ const Main = () => {
         />
         <PriceSlider
           name="Price"
-          min={0}
-          max={1000}
-          onChange={({ min, max }: { min: number; max: number }) =>
-            console.log(`min = ${min}, max = ${max}`)
-          }
+          min={minPrice}
+          max={maxPrice}
+          onChange={handlePriceChange}
         />
         <div className="filters filters__stock">Stock</div>
       </div>
