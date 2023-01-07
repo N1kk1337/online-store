@@ -18,29 +18,6 @@
 .filters {
   @include blue-border-box;
 }
-.filters__category {
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  overflow-y: auto;
-  margin-bottom: 30px;
-  margin-top: 30px;
-  padding: 10px;
-  border: solid 2px blue;
-  border-radius: 20px;
-}
-
-.filters__brand {
-  display: flex;
-  flex-direction: column;
-  height: 200px;
-  overflow-y: auto;
-  margin-bottom: 30px;
-  margin-top: 30px;
-  padding: 10px;
-  border: solid 2px blue;
-  border-radius: 20px;
-}
 
 .filters__price {
 }
