@@ -16,12 +16,11 @@ const Main = () => {
   // filters
   const overallMinPrice = Math.min(...products.map((o) => o.price));
   const overallMaxPrice = Math.max(...products.map((o) => o.price));
-
   const overallMinStock = Math.min(...products.map((o) => o.stock));
-
   const overallMaxStock = Math.max(...products.map((o) => o.stock));
 
   // TODO move to one reusable component
+
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
   const [copyButtonText, setCopyButtonText] = useState("Copy Link");
   const [selectedBrands, setSelectedBrands] = useState<string[]>(
@@ -78,12 +77,10 @@ const Main = () => {
 
   //reset all filters button
   const handleReset = () => {
-    console.log(minPrice);
     setSearchFieldValue("");
     setSelectedBrands([]);
     setSelectedCategories([]);
-    console.log("minPrice = " + minPrice);
-    setMinPrice(overallMinPrice + 1);
+    setMinPrice(overallMinPrice);
     setMaxPrice(overallMaxPrice);
     setMinStock(overallMinStock);
     setMaxStock(overallMaxStock);
@@ -95,7 +92,6 @@ const Main = () => {
       queryObject.setSearch(searchFieldValue);
       queryObject.setBrands(selectedBrands);
       queryObject.setCategories(selectedCategories);
-      console.log("minPrice after set = " + minPrice);
 
       queryObject.setMinPrice(overallMinPrice);
       queryObject.setMaxPrice(overallMaxPrice);

@@ -71,24 +71,18 @@ const CustomSlider: FC<CustomSliderProps> = ({
     }
     (queryObject as any)["max" + typeOfData] = maxVal;
     setQueryParams(queryObject.generateUrl());
-    console.log("max val changed");
   }, [maxVal, getPercent]);
 
   useEffect(() => {
     onChange({ min: minVal, max: maxVal });
   }, [minVal, maxVal, onChange]);
-  // adding onChange will trigger infinite loop?
+  // adding real onChange will trigger infinite loop?
 
   const handleClassName = (mVal: number) => {
     return mVal > max - 100
       ? "thumb thumb--zindex-3"
       : "thumb thumb--zindex-3 thumb--zindex-5";
   };
-  useEffect(() => {
-    // setMinVal(min);
-    // setMaxVal(max);
-    console.log("пришло из родителя");
-  }, [minValProp, maxValProp]);
 
   return (
     <div className="filters filters__price">
