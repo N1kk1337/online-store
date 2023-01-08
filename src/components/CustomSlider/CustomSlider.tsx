@@ -8,22 +8,24 @@ import {
 } from "react";
 import { useSearchParams } from "react-router-dom";
 import QueryData from "../queryData/QueryData";
-import "./PriceSlider.scss";
+import "./CustomSlider.scss";
 
-interface PriceSliderProps {
+interface CustomSliderProps {
   min: number;
   max: number;
   onChange: Function;
   name: string;
   queryObject: QueryData;
+  typeOfData: string;
 }
 
-const PriceSlider: FC<PriceSliderProps> = ({
+const CustomSlider: FC<CustomSliderProps> = ({
   min,
   max,
   onChange,
   name,
   queryObject,
+  typeOfData,
 }) => {
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
 
@@ -49,7 +51,8 @@ const PriceSlider: FC<PriceSliderProps> = ({
         range.current.style.width = `${maxPercent - minPercent}%`;
       }
     }
-    queryObject.minPrice = minVal;
+    (queryObject as any)["min" + typeOfData] = minVal;
+    // TODO same "any" problem about keyof
     setQueryParams(queryObject.generateUrl());
   }, [minVal, getPercent]);
 
@@ -62,7 +65,7 @@ const PriceSlider: FC<PriceSliderProps> = ({
         range.current.style.width = `${maxPercent - minPercent}%`;
       }
     }
-    queryObject.maxPrice = maxVal;
+    (queryObject as any)["max" + typeOfData] = maxVal;
     setQueryParams(queryObject.generateUrl());
   }, [maxVal, getPercent]);
 
@@ -118,4 +121,4 @@ const PriceSlider: FC<PriceSliderProps> = ({
   );
 };
 
-export default PriceSlider;
+export default CustomSlider;

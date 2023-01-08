@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
 import { useState } from "react";
@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import "./Main.scss";
 import Product from "../../assets/model/product";
-import PriceSlider from "../../components/priceSlider/PriceSlider";
+import CustomSlider from "../../components/CustomSlider/CustomSlider";
 import QueryData from "../../components/queryData/QueryData";
 import CheckboxList from "../../components/checkboxList/CheckboxList";
 import { SortOptions } from "../../types/types";
@@ -73,8 +73,11 @@ const Main = () => {
     setSelectedBrands([]);
     setSelectedCategories([]);
     setSearchFieldValue("");
+    setMinPrice(Math.min(...products.map((o) => o.price)));
+    setMaxPrice(Math.max(...products.map((o) => o.price)));
+    setMinStock(Math.min(...products.map((o) => o.stock)));
+    setMaxStock(Math.max(...products.map((o) => o.stock)));
     setSort("By Name");
-    queryObject.reset();
     setQueryParams(queryObject.generateUrl());
   };
 
@@ -149,6 +152,14 @@ const Main = () => {
             (Number(queryParams.get("maxPrice")) ||
               Math.max(...products.map((o) => o.price)))
         );
+      })
+      .filter((item) => {
+        return (
+          item.stock >= (Number(queryParams.get("minStock")) || 0) &&
+          item.stock <=
+            (Number(queryParams.get("maxStock")) ||
+              Math.max(...products.map((o) => o.stock)))
+        );
       });
     if (sort === "By Name")
       results = results.sort((a, b) => a.title.localeCompare(b.title));
@@ -199,7 +210,7 @@ const Main = () => {
           currentProducts={searchResults}
           maxProducts={products}
         />
-        <PriceSlider
+        <CustomSlider
           queryObject={queryObject}
           name="Price"
           min={0}
@@ -207,6 +218,17 @@ const Main = () => {
           onChange={({ min, max }: { min: number; max: number }) =>
             console.log(`min = ${min}, max = ${max}`)
           }
+          typeOfData="Price"
+        />
+        <CustomSlider
+          queryObject={queryObject}
+          name="Stock"
+          min={0}
+          max={Math.max(...products.map((o) => o.stock))}
+          onChange={({ min, max }: { min: number; max: number }) =>
+            console.log(`min = ${min}, max = ${max}`)
+          }
+          typeOfData="Stock"
         />
         <div className="filters filters__stock">Stock</div>
       </div>

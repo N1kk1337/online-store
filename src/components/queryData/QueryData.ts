@@ -17,7 +17,16 @@ interface QueryDataInterface {
   setMinStock: (minStock: number) => void;
   setMaxStock: (maxStock: number) => void;
   generateUrl: () => string;
-  reset: () => void;
+  reset: (
+    search: string,
+    brands: string[],
+    categories: string[],
+    minPrice: number,
+    maxPrice: number,
+    minStock: number,
+    maxStock: number,
+    sort: SortOptions
+  ) => void;
 }
 class QueryData implements QueryDataInterface {
   private static instance: QueryData;
@@ -122,15 +131,24 @@ class QueryData implements QueryDataInterface {
 
     return url;
   }
-  reset() {
-    this.search = "";
-    this.brands = [];
-    this.categories = [];
-    this.minPrice = 0;
-    this.maxPrice = 1000;
-    this.minStock = 0;
-    this.maxStock = 1000;
-    this.sort = "By Name";
+  reset(
+    search: string,
+    brands: string[],
+    categories: string[],
+    minPrice: number,
+    maxPrice: number,
+    minStock: number,
+    maxStock: number,
+    sort: SortOptions
+  ) {
+    this.search = search;
+    this.brands = brands;
+    this.categories = categories;
+    this.minPrice = minPrice;
+    this.maxPrice = maxPrice;
+    this.minStock = minStock;
+    this.maxStock = maxStock;
+    this.sort = sort;
   }
 }
 
