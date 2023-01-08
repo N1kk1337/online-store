@@ -12,21 +12,19 @@ import Error404 from "./pages/404/Error404";
 function App() {
   return (
     <BrowserRouter>
-      <div className="wrapper">
-        <Header title={"Online Store"} cartTotal={1234} />
+      <Header title={"Online Store"} cartTotal={1234} />
 
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/:detailsId" element={<Details />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/details" element={<Details />} />
-          <Route path="/404" element={<Error404 />} />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/:detailsId" element={<Details />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/details" element={<Details />} />
+        <Route path="/404" element={<Error404 />} />
 
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
+        <Route path="*" element={<Navigate to="/404" replace />} />
+      </Routes>
 
-        <Footer />
-      </div>
+      <Footer />
     </BrowserRouter>
   );
 }
