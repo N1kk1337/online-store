@@ -20,6 +20,7 @@
 }
 
 .filters__price {
+  height: 100px;
 }
 .filters__stock {
 }
@@ -42,8 +43,6 @@
 .search-btn {
 }
 .product-list__view-switch {
-  height: 20px; //temp
-  width: 20px;
   background-color: $blue;
 }
 .product-container {

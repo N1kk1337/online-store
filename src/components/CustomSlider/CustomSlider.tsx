@@ -15,8 +15,10 @@ interface CustomSliderProps {
   max: number;
   onChange: Function;
   name: string;
-  queryObject: QueryData;
   typeOfData: string;
+  minValProp: number;
+  maxValProp: number;
+  queryObject: QueryData;
 }
 
 const CustomSlider: FC<CustomSliderProps> = ({
@@ -24,13 +26,15 @@ const CustomSlider: FC<CustomSliderProps> = ({
   max,
   onChange,
   name,
-  queryObject,
   typeOfData,
+  minValProp,
+  maxValProp,
+  queryObject,
 }) => {
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
 
-  const [minVal, setMinVal] = useState(min);
-  const [maxVal, setMaxVal] = useState(max);
+  const [minVal, setMinVal] = useState(minValProp);
+  const [maxVal, setMaxVal] = useState(maxValProp);
   const minValRef = useRef<HTMLInputElement>(null);
   const maxValRef = useRef<HTMLInputElement>(null);
   const range = useRef<HTMLDivElement>(null);
@@ -67,6 +71,7 @@ const CustomSlider: FC<CustomSliderProps> = ({
     }
     (queryObject as any)["max" + typeOfData] = maxVal;
     setQueryParams(queryObject.generateUrl());
+    console.log("max val changed");
   }, [maxVal, getPercent]);
 
   useEffect(() => {
@@ -79,6 +84,11 @@ const CustomSlider: FC<CustomSliderProps> = ({
       ? "thumb thumb--zindex-3"
       : "thumb thumb--zindex-3 thumb--zindex-5";
   };
+  useEffect(() => {
+    // setMinVal(min);
+    // setMaxVal(max);
+    console.log("пришло из родителя");
+  }, [minValProp, maxValProp]);
 
   return (
     <div className="filters filters__price">

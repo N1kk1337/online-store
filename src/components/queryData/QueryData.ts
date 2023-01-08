@@ -9,6 +9,7 @@ interface QueryDataInterface {
   minStock: number;
   maxStock: number;
   sort: SortOptions;
+  view: boolean;
   setSearch: (search: string) => void;
   setBrands: (brands: string[]) => void;
   setCategories: (categories: string[]) => void;
@@ -25,7 +26,8 @@ interface QueryDataInterface {
     maxPrice: number,
     minStock: number,
     maxStock: number,
-    sort: SortOptions
+    sort: SortOptions,
+    view: boolean
   ) => void;
 }
 class QueryData implements QueryDataInterface {
@@ -39,6 +41,7 @@ class QueryData implements QueryDataInterface {
   minStock;
   maxStock;
   sort;
+  view;
 
   private constructor(
     search: string = "",
@@ -48,7 +51,8 @@ class QueryData implements QueryDataInterface {
     maxPrice: number,
     minStock = 0,
     maxStock: number,
-    sort: SortOptions = "By Name"
+    sort: SortOptions = "By Name",
+    view: boolean = false
   ) {
     this.search = search;
     this.brands = brands;
@@ -58,6 +62,7 @@ class QueryData implements QueryDataInterface {
     this.minStock = minStock;
     this.maxStock = maxStock;
     this.sort = sort;
+    this.view = view;
   }
 
   static getInstance(
@@ -68,7 +73,8 @@ class QueryData implements QueryDataInterface {
     maxPrice: number,
     minStock: number = 0,
     maxStock: number,
-    sort: SortOptions = "By Name"
+    sort: SortOptions = "By Name",
+    view: boolean
   ): QueryData {
     if (!QueryData.instance) {
       QueryData.instance = new QueryData(
@@ -79,7 +85,8 @@ class QueryData implements QueryDataInterface {
         maxPrice,
         minStock,
         maxStock,
-        sort
+        sort,
+        view
       );
     }
     return QueryData.instance;
@@ -128,6 +135,7 @@ class QueryData implements QueryDataInterface {
     url += this.minStock !== 0 ? "&minStock=" + this.minStock : "";
     url += this.maxStock !== 0 ? "&maxStock=" + this.maxStock : "";
     url += this.sort !== "By Name" ? "&sort=" + this.sort : "";
+    url += this.view ? "&view=" + this.view : "";
 
     return url;
   }
@@ -139,7 +147,8 @@ class QueryData implements QueryDataInterface {
     maxPrice: number,
     minStock: number,
     maxStock: number,
-    sort: SortOptions
+    sort: SortOptions,
+    view: boolean
   ) {
     this.search = search;
     this.brands = brands;
@@ -149,6 +158,7 @@ class QueryData implements QueryDataInterface {
     this.minStock = minStock;
     this.maxStock = maxStock;
     this.sort = sort;
+    this.view = view;
   }
 }
 

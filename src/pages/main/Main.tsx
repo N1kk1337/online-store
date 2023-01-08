@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 import products from "../../assets/data/products";
 import { useState } from "react";
@@ -10,13 +10,20 @@ import CustomSlider from "../../components/CustomSlider/CustomSlider";
 import QueryData from "../../components/queryData/QueryData";
 import CheckboxList from "../../components/checkboxList/CheckboxList";
 import { SortOptions } from "../../types/types";
+import ProductCardLarge from "../../components/productCardLarge/productCardLarge";
 
 const Main = () => {
-  // URL generation
   // filters
+  const overallMinPrice = Math.min(...products.map((o) => o.price));
+  const overallMaxPrice = Math.max(...products.map((o) => o.price));
+
+  const overallMinStock = Math.min(...products.map((o) => o.stock));
+
+  const overallMaxStock = Math.max(...products.map((o) => o.stock));
+
   // TODO move to one reusable component
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
-
+  const [copyButtonText, setCopyButtonText] = useState("Copy Link");
   const [selectedBrands, setSelectedBrands] = useState<string[]>(
     queryParams.get("brands") !== null
       ? queryParams.get("brands")!.split(",")
@@ -31,25 +38,25 @@ const Main = () => {
     queryParams.get("search") || ""
   );
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
+  const [view, setView] = useState<boolean>(queryParams.get("view") !== null);
 
   const [sort, setSort] = useState<SortOptions>(
     (queryParams.get("sort") as SortOptions) || "By Name"
   );
 
   const [minPrice, setMinPrice] = useState<number>(
-    Number(queryParams.get("minPrice")) || 0
+    Number(queryParams.get("minPrice")) || overallMinPrice
   );
   const [maxPrice, setMaxPrice] = useState<number>(
-    Number(queryParams.get("maxPrice")) ||
-      Math.max(...products.map((o) => o.price))
+    Number(queryParams.get("maxPrice")) || overallMaxPrice
   );
   const [minStock, setMinStock] = useState<number>(
-    Number(queryParams.get("minStock")) || 0
+    Number(queryParams.get("minStock")) || overallMinStock
   );
   const [maxStock, setMaxStock] = useState<number>(
-    Number(queryParams.get("maxStock")) ||
-      Math.max(...products.map((o) => o.stock))
+    Number(queryParams.get("maxStock")) || overallMaxStock
   );
+  const [reset, setReset] = useState<boolean>(false);
   const queryObject = QueryData.getInstance(
     searchFieldValue,
     selectedBrands,
@@ -57,9 +64,10 @@ const Main = () => {
     minPrice,
     maxPrice,
     minStock,
-    maxStock
+    maxStock,
+    sort,
+    view
   );
-
   const brands: Set<string> = new Set(products.map((product) => product.brand));
 
   const brandsItems = Array.from(brands);
@@ -70,16 +78,35 @@ const Main = () => {
 
   //reset all filters button
   const handleReset = () => {
+    console.log(minPrice);
+    setSearchFieldValue("");
     setSelectedBrands([]);
     setSelectedCategories([]);
-    setSearchFieldValue("");
-    setMinPrice(Math.min(...products.map((o) => o.price)));
-    setMaxPrice(Math.max(...products.map((o) => o.price)));
-    setMinStock(Math.min(...products.map((o) => o.stock)));
-    setMaxStock(Math.max(...products.map((o) => o.stock)));
+    console.log("minPrice = " + minPrice);
+    setMinPrice(overallMinPrice + 1);
+    setMaxPrice(overallMaxPrice);
+    setMinStock(overallMinStock);
+    setMaxStock(overallMaxStock);
     setSort("By Name");
-    setQueryParams(queryObject.generateUrl());
+    setReset(true);
   };
+  useEffect(() => {
+    if (reset === true) {
+      queryObject.setSearch(searchFieldValue);
+      queryObject.setBrands(selectedBrands);
+      queryObject.setCategories(selectedCategories);
+      console.log("minPrice after set = " + minPrice);
+
+      queryObject.setMinPrice(overallMinPrice);
+      queryObject.setMaxPrice(overallMaxPrice);
+      queryObject.setMinStock(overallMinStock);
+      queryObject.setMaxStock(overallMaxStock);
+      queryObject.setSort(sort);
+
+      setQueryParams(queryObject.generateUrl());
+      setReset(false);
+    }
+  }, [reset]);
 
   const handleBrandsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedBrand = e.target!.value;
@@ -90,7 +117,6 @@ const Main = () => {
     } else {
       setSelectedBrands([...selectedBrands, selectedBrand]);
     }
-
     queryObject.brands = selectedBrands;
     setQueryParams(queryObject.generateUrl());
   };
@@ -123,19 +149,36 @@ const Main = () => {
   };
 
   //price slider
-  // const handlePriceChange = ({ min, max }: { min: number; max: number }) => {
-  //   setMinPrice(min);
-  //   setMaxPrice(max);
-  //   queryObject.minPrice = min;
-  //   queryObject.maxPrice = max;
-  //   setQueryParams(queryObject.generateUrl());
-  // };
+  const handlePriceChange = ({ min, max }: { min: number; max: number }) => {
+    // setMinPrice(min);
+    // setMaxPrice(max);
+    // queryObject.minPrice = min;
+    // queryObject.maxPrice = max;
+    //setQueryParams(queryObject.generateUrl());
+  };
+
+  const handleStockChange = ({ min, max }: { min: number; max: number }) => {
+    // setMinStock(min);
+    // setMaxStock(max);
+    //setQueryParams(queryObject.generateUrl());
+  };
 
   // final showdown
   useEffect(() => {
     let results = products
-      .filter((item) =>
-        item.title.toLocaleLowerCase().includes(searchFieldValue)
+      .filter(
+        (item) =>
+          item.title
+            .toLocaleLowerCase()
+            .includes(searchFieldValue.toLocaleLowerCase()) ||
+          item.description
+            .toLocaleLowerCase()
+            .includes(searchFieldValue.toLocaleLowerCase()) ||
+          item.category
+            .toLocaleLowerCase()
+            .includes(searchFieldValue.toLocaleLowerCase()) ||
+          item.price === Number(searchFieldValue) ||
+          item.stock === Number(searchFieldValue)
       )
       .filter((item) => {
         if (selectedBrands.length === 0) return item;
@@ -166,7 +209,10 @@ const Main = () => {
     else results = results.sort((a, b) => a.price - b.price);
     queryObject.brands = selectedBrands;
     queryObject.categories = selectedCategories;
-
+    // setMinPrice(queryObject.minPrice);
+    // setMaxPrice(queryObject.maxPrice);
+    queryObject.view = view;
+    setCopyButtonText("Copy Link");
     setQueryParams(queryObject.generateUrl());
     setSearchResults(results);
   }, [
@@ -176,7 +222,12 @@ const Main = () => {
     sort,
     minPrice,
     maxPrice,
+    minStock,
+    maxStock,
     queryParams,
+    queryObject,
+    setQueryParams,
+    view,
   ]);
   // TODO should I add 'queryObject' and 'setQueryParams' ?
   // TODO also consider to add "search" button, to not overload API and improve performance
@@ -193,7 +244,15 @@ const Main = () => {
         <button className="btn" onClick={handleReset}>
           Reset Filters
         </button>{" "}
-        <p className="btn">Copy Link</p>
+        <button
+          className="btn"
+          onClick={() => {
+            navigator.clipboard.writeText(window.location.href);
+            setCopyButtonText("Copied URL to clipboard");
+          }}
+        >
+          {copyButtonText}
+        </button>
         <CheckboxList
           name="Brand"
           items={brandsItems}
@@ -211,26 +270,25 @@ const Main = () => {
           maxProducts={products}
         />
         <CustomSlider
-          queryObject={queryObject}
           name="Price"
-          min={0}
+          min={Math.min(...products.map((o) => o.price))}
           max={Math.max(...products.map((o) => o.price))}
-          onChange={({ min, max }: { min: number; max: number }) =>
-            console.log(`min = ${min}, max = ${max}`)
-          }
+          onChange={handlePriceChange}
           typeOfData="Price"
+          minValProp={minPrice}
+          maxValProp={maxPrice}
+          queryObject={queryObject}
         />
         <CustomSlider
-          queryObject={queryObject}
           name="Stock"
-          min={0}
+          min={Math.min(...products.map((o) => o.stock))}
           max={Math.max(...products.map((o) => o.stock))}
-          onChange={({ min, max }: { min: number; max: number }) =>
-            console.log(`min = ${min}, max = ${max}`)
-          }
+          onChange={handleStockChange}
           typeOfData="Stock"
+          minValProp={minStock}
+          maxValProp={maxStock}
+          queryObject={queryObject}
         />
-        <div className="filters filters__stock">Stock</div>
       </div>
       <div className="main-page__product-list">
         <div className="product-list__header">
@@ -252,20 +310,37 @@ const Main = () => {
               />
             </form>
           </div>
-          <p className="product-list__view-switch"></p>
+          <button
+            onClick={() => setView(!view)}
+            className="product-list__view-switch"
+          >
+            {view ? <p>Switch to Small Cards</p> : <p>Switch to Large Cards</p>}
+          </button>
         </div>
         <div className="product-container">
+          {searchResults.length === 0 && (
+            <h2>Ничего не нашлось, попробуйте сузить критерии поиска </h2>
+          )}
+
           {searchResults.map((item) => (
             <div
               key={item.id}
               onClick={() => onProductClick(item.id)}
               className="product-container__wrapper"
             >
-              <ProductCard
-                title={item.title}
-                thumbnail={item.thumbnail}
-                description={item.description}
-              />
+              {view ? (
+                <ProductCardLarge
+                  title={item.title}
+                  thumbnail={item.thumbnail}
+                  description={item.description}
+                />
+              ) : (
+                <ProductCard
+                  title={item.title}
+                  thumbnail={item.thumbnail}
+                  description={item.description}
+                />
+              )}
             </div>
           ))}
         </div>
