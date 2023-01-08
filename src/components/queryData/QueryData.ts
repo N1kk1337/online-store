@@ -19,26 +19,27 @@ interface QueryDataInterface {
   generateUrl: () => string;
   reset: () => void;
 }
+class QueryData implements QueryDataInterface {
+  private static instance: QueryData;
 
-class queryData implements QueryDataInterface {
-  search: string;
-  brands: string[];
-  categories: string[];
-  minPrice: number;
-  maxPrice: number;
-  minStock: number;
-  maxStock: number;
-  sort: SortOptions = "By Name";
+  search;
+  brands;
+  categories;
+  minPrice;
+  maxPrice;
+  minStock;
+  maxStock;
+  sort;
 
-  constructor(
-    search: string,
-    brands: string[],
-    categories: string[],
-    minPrice: number,
+  private constructor(
+    search: string = "",
+    brands: string[] = [],
+    categories: string[] = [],
+    minPrice = 0,
     maxPrice: number,
-    minStock: number,
+    minStock = 0,
     maxStock: number,
-    sort: SortOptions
+    sort: SortOptions = "By Name"
   ) {
     this.search = search;
     this.brands = brands;
@@ -49,6 +50,32 @@ class queryData implements QueryDataInterface {
     this.maxStock = maxStock;
     this.sort = sort;
   }
+
+  static getInstance(
+    search: string = "",
+    brands: string[] = [],
+    categories: string[] = [],
+    minPrice: number = 0,
+    maxPrice: number,
+    minStock: number = 0,
+    maxStock: number,
+    sort: SortOptions = "By Name"
+  ): QueryData {
+    if (!QueryData.instance) {
+      QueryData.instance = new QueryData(
+        search,
+        brands,
+        categories,
+        minPrice,
+        maxPrice,
+        minStock,
+        maxStock,
+        sort
+      );
+    }
+    return QueryData.instance;
+  }
+
   setSort(sort: SortOptions) {
     this.sort = sort;
   }
@@ -100,11 +127,11 @@ class queryData implements QueryDataInterface {
     this.brands = [];
     this.categories = [];
     this.minPrice = 0;
-    this.maxPrice = 0;
+    this.maxPrice = 1000;
     this.minStock = 0;
-    this.maxStock = 0;
+    this.maxStock = 1000;
     this.sort = "By Name";
   }
 }
 
-export default queryData;
+export default QueryData;

@@ -12,6 +12,7 @@ import CheckboxList from "../../components/checkboxList/CheckboxList";
 import { SortOptions } from "../../types/types";
 
 const Main = () => {
+  // URL generation
   // filters
   // TODO move to one reusable component
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
@@ -36,10 +37,27 @@ const Main = () => {
   );
 
   const [minPrice, setMinPrice] = useState<number>(
-    Number(queryParams.get("minPrice"))
+    Number(queryParams.get("minPrice")) || 0
   );
   const [maxPrice, setMaxPrice] = useState<number>(
-    Number(queryParams.get("maxPrice"))
+    Number(queryParams.get("maxPrice")) ||
+      Math.max(...products.map((o) => o.price))
+  );
+  const [minStock, setMinStock] = useState<number>(
+    Number(queryParams.get("minStock")) || 0
+  );
+  const [maxStock, setMaxStock] = useState<number>(
+    Number(queryParams.get("maxStock")) ||
+      Math.max(...products.map((o) => o.stock))
+  );
+  const queryObject = QueryData.getInstance(
+    searchFieldValue,
+    selectedBrands,
+    selectedCategories,
+    minPrice,
+    maxPrice,
+    minStock,
+    maxStock
   );
 
   const brands: Set<string> = new Set(products.map((product) => product.brand));
@@ -94,18 +112,6 @@ const Main = () => {
     setQueryParams(queryObject.generateUrl());
   };
 
-  // URL generation
-  const queryObject = new QueryData(
-    searchFieldValue,
-    selectedBrands,
-    selectedCategories,
-    0,
-    0,
-    0,
-    0,
-    sort
-  );
-
   // search field
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchFieldValue(event.target.value);
@@ -114,19 +120,13 @@ const Main = () => {
   };
 
   //price slider
-  const handlePriceChange = useCallback(
-    ({ min, max }: { min: number; max: number }) => {
-      console.log(min);
-      console.log(max);
-
-      setMinPrice(min);
-      setMaxPrice(max);
-      queryObject.minPrice = min;
-      queryObject.maxPrice = max;
-      setQueryParams(queryObject.generateUrl());
-    },
-    [minPrice, maxPrice]
-  );
+  // const handlePriceChange = ({ min, max }: { min: number; max: number }) => {
+  //   setMinPrice(min);
+  //   setMaxPrice(max);
+  //   queryObject.minPrice = min;
+  //   queryObject.maxPrice = max;
+  //   setQueryParams(queryObject.generateUrl());
+  // };
 
   // final showdown
   useEffect(() => {
@@ -141,6 +141,14 @@ const Main = () => {
       .filter((item) => {
         if (selectedCategories.length === 0) return item;
         else return selectedCategories.includes(item.category);
+      })
+      .filter((item) => {
+        return (
+          item.price >= (Number(queryParams.get("minPrice")) || 0) &&
+          item.price <=
+            (Number(queryParams.get("maxPrice")) ||
+              Math.max(...products.map((o) => o.price)))
+        );
       });
     if (sort === "By Name")
       results = results.sort((a, b) => a.title.localeCompare(b.title));
@@ -150,8 +158,17 @@ const Main = () => {
 
     setQueryParams(queryObject.generateUrl());
     setSearchResults(results);
-  }, [searchFieldValue, selectedBrands, selectedCategories, sort]);
+  }, [
+    searchFieldValue,
+    selectedBrands,
+    selectedCategories,
+    sort,
+    minPrice,
+    maxPrice,
+    queryParams,
+  ]);
   // TODO should I add 'queryObject' and 'setQueryParams' ?
+  // TODO also consider to add "search" button, to not overload API and improve performance
 
   // navigate to individual product page
   const navigate = useNavigate();
@@ -183,10 +200,13 @@ const Main = () => {
           maxProducts={products}
         />
         <PriceSlider
+          queryObject={queryObject}
           name="Price"
-          min={minPrice}
-          max={maxPrice}
-          onChange={handlePriceChange}
+          min={0}
+          max={Math.max(...products.map((o) => o.price))}
+          onChange={({ min, max }: { min: number; max: number }) =>
+            console.log(`min = ${min}, max = ${max}`)
+          }
         />
         <div className="filters filters__stock">Stock</div>
       </div>

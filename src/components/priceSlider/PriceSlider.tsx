@@ -6,6 +6,8 @@ import {
   useState,
   useRef,
 } from "react";
+import { useSearchParams } from "react-router-dom";
+import QueryData from "../queryData/QueryData";
 import "./PriceSlider.scss";
 
 interface PriceSliderProps {
@@ -13,15 +15,23 @@ interface PriceSliderProps {
   max: number;
   onChange: Function;
   name: string;
+  queryObject: QueryData;
 }
 
-const PriceSlider: FC<PriceSliderProps> = ({ min, max, onChange, name }) => {
+const PriceSlider: FC<PriceSliderProps> = ({
+  min,
+  max,
+  onChange,
+  name,
+  queryObject,
+}) => {
+  const [queryParams, setQueryParams] = useSearchParams({ search: "" });
+
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef<HTMLInputElement>(null);
   const maxValRef = useRef<HTMLInputElement>(null);
   const range = useRef<HTMLDivElement>(null);
-
   // Convert to percentage
   const getPercent = useCallback(
     (value: number) => Math.round(((value - min) / (max - min)) * 100),
@@ -39,6 +49,8 @@ const PriceSlider: FC<PriceSliderProps> = ({ min, max, onChange, name }) => {
         range.current.style.width = `${maxPercent - minPercent}%`;
       }
     }
+    queryObject.minPrice = minVal;
+    setQueryParams(queryObject.generateUrl());
   }, [minVal, getPercent]);
 
   useEffect(() => {
@@ -50,6 +62,8 @@ const PriceSlider: FC<PriceSliderProps> = ({ min, max, onChange, name }) => {
         range.current.style.width = `${maxPercent - minPercent}%`;
       }
     }
+    queryObject.maxPrice = maxVal;
+    setQueryParams(queryObject.generateUrl());
   }, [maxVal, getPercent]);
 
   useEffect(() => {
@@ -96,6 +110,8 @@ const PriceSlider: FC<PriceSliderProps> = ({ min, max, onChange, name }) => {
         <div className="slider">
           <div className="slider__track"></div>
           <div ref={range} className="slider__range"></div>
+          <div className="slider__left-value">{minVal}</div>
+          <div className="slider__right-value">{maxVal}</div>
         </div>
       </div>
     </div>
