@@ -1,23 +1,23 @@
 @use "/src/styles/utils.scss" as *;
-.productCard {
-  @include blue-border-box;
 
+.productCardLarge {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 180px;
+  width: 360px;
+  @include blue-border-box;
 
   margin-right: 20px;
   margin-bottom: 20px;
   &__title {
-    color: black;
+    color: $black;
     font-size: 20px;
     margin-bottom: 15px;
     text-decoration: underline;
   }
   &__img {
-    width: 180px;
-    height: 140px;
+    width: 360px;
+    height: 280px;
     margin-bottom: 14px;
   }
 
