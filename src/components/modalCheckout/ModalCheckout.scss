@@ -1,0 +1,79 @@
+@use "/src/styles/utils.scss" as *;
+
+.modal-background {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.modal-container {
+  @include blue-border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 20px;
+
+  background: $white;
+  color: $black;
+  z-index: 10;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-text {
+}
+.name {
+  @include blue-border-box;
+}
+
+.phone-number {
+  @include blue-border-box;
+}
+
+.address {
+  @include blue-border-box;
+}
+
+.email {
+  @include blue-border-box;
+}
+
+.subheader-text {
+  @include blue-border-box;
+}
+
+.card-container {
+  @include blue-border-box;
+}
+
+.card-img {
+  @include blue-border-box;
+}
+
+.card-number {
+  @include blue-border-box;
+}
+
+.valid-thru {
+  @include blue-border-box;
+}
+
+.ccv {
+  @include blue-border-box;
+}
+
+.cards-errors-container {
+  @include blue-border-box;
+}
+
+.submit-btn {
+  @include blue-border-box;
+}
