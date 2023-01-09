@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import products from "../../assets/data/products";
 import "./Cart.scss";
 import ReactPaginate from "react-paginate";
+import { count } from "console";
 
 const Cart = () => {
-  const testList = products.filter((it) => {
-    if (it.price > 1000) {
-      return it;
-    }
-  });
+  const arrIds = JSON.parse(localStorage.getItem("arr"));
+
+  const testList = products.filter((e) => arrIds.includes(e.id));
+
+  const [count, setCount] = useState(1);
 
   const [itemOffset, setItemOffset] = useState(0);
 
@@ -34,12 +35,18 @@ const Cart = () => {
         <div className="cardProducts__bord">
           <div className="cardProducts__bord-header">
             <h1>Header</h1>
-            <input defaultValue="3" max="6" min="1" onChange={handleChange} />
+            <input
+              type="number"
+              defaultValue="3"
+              max="6"
+              min="1"
+              onChange={handleChange}
+            />
           </div>
           <div>
             {currentItems.map((cartProduct) => (
               <div key={cartProduct.description} className="product">
-                <div className="product__number">1</div>
+                <div className="product__number"></div>
                 <img
                   className="product__img"
                   alt="img productCart"
@@ -56,9 +63,19 @@ const Cart = () => {
                 <div className="product__numver-control">
                   <p className="stock">Stock:{cartProduct.stock}</p>
                   <div className="number">
-                    <button className="btnAdd">-</button>
-                    <p className="curent">44</p>
-                    <button className="btnAdd">+</button>
+                    <button
+                      onClick={() => setCount((count) => count - 1)}
+                      className="btnAdd"
+                    >
+                      -
+                    </button>
+                    <p className="curent">{count}</p>
+                    <button
+                      onClick={() => setCount((count) => count + 1)}
+                      className="btnAdd"
+                    >
+                      +
+                    </button>
                   </div>
                   <p className="price">${cartProduct.price}</p>
                 </div>
@@ -75,7 +92,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="cartProducts__summary">
-          <h3 className="title">Summary</h3>
+          <h3 className="title">{}</h3>
           <div>
             <p>Products</p>
             <p>Total</p>
