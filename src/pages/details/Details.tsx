@@ -10,9 +10,6 @@ const Details = () => {
 
   return (
     <div className="details container">
-      <div className="details__route">
-        <p></p>
-      </div>
       <div className="details-card">
         <div className="details-card__header">{productById?.brand}</div>
         <div className="details-card__images-container">

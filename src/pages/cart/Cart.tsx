@@ -27,7 +27,7 @@ const Cart = () => {
     for (let i = 0; i < actualItemsArr.length; i++) {
       // console.log(i);
       // console.log("id " + actualItemsArr[i].id);
-      console.log(cartStorage.getValueById(actualItemsArr[i].id));
+      console.log(cartStorage.getValueById(actualItemsArr[i].id), "total");
       price =
         price +
         actualItemsArr[i].price *
