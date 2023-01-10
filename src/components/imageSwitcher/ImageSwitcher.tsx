@@ -7,6 +7,7 @@ interface Props {
   value: string;
 }
 
+// eslint-disable-next-line react/prop-types
 const ImageSwitcher: React.FC<Props> = ({ value }) => {
   let image: string;
   switch (value[0]) {

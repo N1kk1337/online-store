@@ -17,7 +17,7 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
 
   //check if date is longer then 5 (2 for months, 2 for year, 1 for slash)
   const formatDate = (event: ChangeEvent) => {
-    let input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
     if (input.value.length > 5) {
       input.value = input.value.slice(0, 5);
     }
@@ -33,7 +33,7 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
     }
 
     if (input.value.length >= 2) {
-      let month = input.value.slice(0, 2);
+      const month = input.value.slice(0, 2);
       // if month is not valid, round it to the closest valid number
       if (Number(month) > 12) {
         input.value = "12/";
@@ -47,7 +47,7 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
   };
 
   const formatCCV = (event: ChangeEvent) => {
-    let input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
     // forbid entering more then 3 numbers in the CVV field
     if (input.value.length > 3) {
       input.value = input.value.slice(0, 3);
@@ -56,7 +56,7 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
   };
 
   const formatCard = (event: ChangeEvent) => {
-    let input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
 
     // forbid entering more then 16 numbers in the card number field
     if (input.value.length > 16) {

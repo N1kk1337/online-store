@@ -6,8 +6,10 @@ import getProductById from "../details/productById";
 import products from "../../assets/data/products";
 import CartProductCard from "../../components/cartProductCard/CartProductCard";
 import Product from "../../assets/model/product";
+import ModalCheckout from "../../components/modalCheckout/ModalCheckout";
 
 const Cart = () => {
+  const [isOpen, setIsOpen] = useState(false);
   // const [currentPage, setCurrentPage] = useState(1);
   // const currentTableData = useMemo(() => {
   //   const firstPageIndex = (currentPage - 1) * PageSize;
@@ -109,6 +111,8 @@ const Cart = () => {
           <p className="text">Total Products: {getProductsCount()}</p>
           <p className="text">Total Price {getTotalPrice()} $</p>
           <input placeholder="Enter promo code" />
+          <button onClick={() => setIsOpen(true)}>To Payment</button>
+          {isOpen && <ModalCheckout setIsOpen={setIsOpen} />}
         </div>
       </div>
     </div>
