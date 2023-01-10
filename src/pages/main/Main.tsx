@@ -323,7 +323,7 @@ const Main = () => {
           {searchResults.map((item) => (
             <div
               key={item.id}
-              onClick={() => onProductClick(item.id)}
+              // onClick={() => onProductClick(item.id)}
               className="product-container__wrapper"
             >
               {view ? (
