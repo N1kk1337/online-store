@@ -111,7 +111,7 @@ const Cart = () => {
           <input placeholder="Enter promo code" />
         </div>
       </div>
-    </div>
+
   );
 };
 
