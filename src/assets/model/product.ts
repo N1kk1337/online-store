@@ -10,6 +10,7 @@ interface Product {
   category: string;
   thumbnail: string;
   images: Array<string>;
+  count: number;
 }
 
 interface Products {

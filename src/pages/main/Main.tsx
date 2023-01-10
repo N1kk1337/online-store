@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
-import products from "../../assets/data/products";
+import newMoviesArray from "../../assets/data/products";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +24,7 @@ const Main = () => {
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
   useEffect(() => {
-    const results = products.filter((item) =>
+    const results = newMoviesArray.filter((item) =>
       item.title.toLocaleLowerCase().includes(value)
     );
     setSearchResults(results);
@@ -34,7 +34,7 @@ const Main = () => {
     navigate(id.toString());
   };
 
-  const clickId = (val) => {
+  const clickId = (val: never) => {
     if (idCart.includes(val)) {
       setIdCart(
         idCart.filter((f) => {
@@ -52,7 +52,7 @@ const Main = () => {
       <div className="filters">
         <p className="btn">Reset Filters</p> <p className="btn">Copy Link</p>
         <div className="filters__brand">
-          {products.map((it) => (
+          {newMoviesArray.map((it) => (
             <label key={it.title}>
               {it.brand}
               <input id={it.category} type="checkbox" />
