@@ -13,17 +13,13 @@ function App() {
     <BrowserRouter>
       <div className="wrapper">
         <Header title={"Online Store"} cartTotal={1234} />
-
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/:detailsId" element={<Details />} />
+          <Route path="/details/:detailsId" element={<Details />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/details" element={<Details />} />
           <Route path="/404" element={<Error404 />} />
-
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
-
         <Footer />
       </div>
     </BrowserRouter>

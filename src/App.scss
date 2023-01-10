@@ -8,12 +8,12 @@ div {
 }
 
 .wrapper {
-  margin: 0; //temp
-  min-height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   align-items: center;
-  justify-content: center;
+  justify-items: center;
+
   background-color: $white;
 }
