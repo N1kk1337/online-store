@@ -5,7 +5,7 @@ import "./details.scss";
 import getProductById from "./productById";
 
 const Details = () => {
-  let t = useParams().detailsId;
+  const t = useParams().detailsId;
   const productById = getProductById(t);
   console.log(productById);
 

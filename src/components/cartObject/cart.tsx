@@ -3,6 +3,7 @@ import productById from "../../pages/details/productById";
 
 class Cart {
   private static instance: Cart;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   static getInstance(): Cart {
