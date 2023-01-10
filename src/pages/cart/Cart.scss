@@ -1,0 +1,244 @@
+@use "/src/styles/utils.scss" as *;
+
+.cardProducts__bord-header {
+  @include blue-border-box;
+  display: flex;
+  padding-top: 10px;
+  background-color: #93bff1;
+
+  & h1 {
+    @include blue-border-box;
+
+    font-size: 28px;
+    margin-right: auto;
+  }
+}
+.row {
+  @include blue-border-box;
+
+  display: flex;
+}
+
+.textInpunNumber {
+  font-size: 22px;
+}
+
+.btnAddPiece {
+  @include blue-border-box;
+
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  border-radius: 100%;
+  background-color: rgb(244, 113, 113);
+  margin-bottom: 10px;
+}
+
+.btnDeletePiece {
+  @include blue-border-box;
+
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  border-radius: 100%;
+  background-color: rgb(131, 233, 131);
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.number {
+  @include blue-border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputNumber {
+  @include blue-border-box;
+
+  height: 32px;
+  font-size: 24px;
+  border: solid 2px black;
+  border-radius: 6px;
+  background-color: rgb(160, 241, 160);
+}
+
+.summaryWrapper {
+  @include blue-border-box;
+
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 2px solid black;
+  background-color: #93bff1;
+}
+
+.paginator {
+  @include blue-border-box;
+
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  li {
+    @include blue-border-box;
+
+    margin-right: 10px;
+  }
+
+  li a {
+    @include blue-border-box;
+
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    border: gray 1px solid;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a,
+  li.break a {
+    border-color: transparent;
+  }
+  li.active a {
+    @include blue-border-box;
+
+    background-color: #0366d6;
+    border-color: transparent;
+    color: white;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: grey;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+}
+
+.cartProducts {
+  @include blue-border-box;
+
+  display: flex;
+  flex-direction: row;
+  &__bord {
+    max-width: 70%;
+    width: 100%;
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    max-width: 30%;
+    width: 100%;
+    height: 100%;
+    margin-left: 10px;
+    border: 2px solid black;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    & .title {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    & .text {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+  }
+}
+.product {
+  @include blue-border-box;
+
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  border: solid black 2px;
+  box-sizing: border-box;
+
+  &__number {
+    @include blue-border-box;
+
+    display: flex;
+    align-items: center;
+    font-size: 32px;
+    margin-left: 10px;
+  }
+
+  &__img {
+    @include blue-border-box;
+
+    width: 250px;
+    height: 150px;
+    margin: 10px;
+  }
+
+  &__discription {
+    @include blue-border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 20px;
+
+    & .title {
+      @include blue-border-box;
+
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-decoration: underline;
+    }
+
+    & .subtitle {
+      @include blue-border-box;
+
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    & .other {
+      @include blue-border-box;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__numver-control {
+    @include blue-border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .stock {
+      @include blue-border-box;
+
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    & .btnAdd {
+      @include blue-border-box;
+
+      width: 20px;
+      height: 20px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+    & .curent {
+      @include blue-border-box;
+
+      font-size: 22px;
+    }
+  }
+}

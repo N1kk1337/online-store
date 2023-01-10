@@ -12,11 +12,11 @@ interface Product {
   images: Array<string>;
 }
 
-interface Products {
-  products: Array<Product>;
-  total: number;
-  skip: number;
-  limit: number;
-}
+// interface Products {
+//   products: Array<Product>;
+//   total: number;
+//   skip: number;
+//   limit: number;
+// }
 
 export default Product;

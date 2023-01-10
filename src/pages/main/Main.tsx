@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
-import products from "../../assets/data/products";
+// import productsArray from "../../assets/data/products";
 import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import products from "../../assets/data/products";
+import CartStorage from "../../components/cartObject/cart";
 import "./Main.scss";
 import Product from "../../assets/model/product";
 import CustomSlider from "../../components/CustomSlider/CustomSlider";
@@ -11,7 +12,6 @@ import QueryData from "../../components/queryData/QueryData";
 import CheckboxList from "../../components/checkboxList/CheckboxList";
 import { SortOptions } from "../../types/types";
 import ProductCardLarge from "../../components/productCardLarge/productCardLarge";
-
 const Main = () => {
   // filters
   const overallMinPrice = Math.min(...products.map((o) => o.price));
@@ -116,6 +116,7 @@ const Main = () => {
     queryObject.brands = selectedBrands;
     setQueryParams(queryObject.generateUrl());
   };
+
 
   const handleCategoriesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedCategory = e.target!.value;
@@ -231,9 +232,9 @@ const Main = () => {
   // navigate to individual product page
   const navigate = useNavigate();
   const onProductClick = (id: string | number) => {
-    navigate("/details/" + id.toString());
-  };
+    navigate("/details/" + id.toString());  };
 
+  //localStorage.setItem("arr", JSON.stringify(idCart));
   return (
     <div className="main-page container">
       <div className="filters">
@@ -319,6 +320,7 @@ const Main = () => {
           )}
 
           {searchResults.map((item) => (
+
             <div
               key={item.id}
               onClick={() => onProductClick(item.id)}
@@ -326,12 +328,22 @@ const Main = () => {
             >
               {view ? (
                 <ProductCardLarge
+                                id={item.id}
+                handleAddToCart={() => {
+                  cartStorage.addItem(item.id);
+                }}
+                handleNavigate={() => onProductClick(item.id)}
                   title={item.title}
                   thumbnail={item.thumbnail}
                   description={item.description}
                 />
               ) : (
                 <ProductCard
+                                id={item.id}
+                handleAddToCart={() => {
+                  cartStorage.addItem(item.id);
+                }}
+                handleNavigate={() => onProductClick(item.id)}
                   title={item.title}
                   thumbnail={item.thumbnail}
                   description={item.description}
