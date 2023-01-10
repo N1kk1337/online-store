@@ -1,5 +1,5 @@
 interface Product {
-  id: any;
+  id: number;
   title: string;
   description: string;
   price: number;
@@ -10,14 +10,13 @@ interface Product {
   category: string;
   thumbnail: string;
   images: Array<string>;
-  count: number;
 }
 
-interface Products {
-  products: Array<Product>;
-  total: number;
-  skip: number;
-  limit: number;
-}
+// interface Products {
+//   products: Array<Product>;
+//   total: number;
+//   skip: number;
+//   limit: number;
+// }
 
 export default Product;

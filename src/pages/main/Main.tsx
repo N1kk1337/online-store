@@ -1,40 +1,43 @@
 import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
-import newMoviesArray from "../../assets/data/products";
+// import productsArray from "../../assets/data/products";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import products from "../../assets/data/products";
+import CartStorage from "../../components/cartObject/cart";
 
 import "./Main.scss";
 import Product from "../../assets/model/product";
 
 const Main = () => {
+  const cartStorage = CartStorage.getInstance();
   const [value, setValue] = useState("");
   const navigate = useNavigate();
 
-  const [idCart, setIdCart] = useState([]);
+  const [idCart, setIdCart] = useState<Array<number>>([]);
 
   const [checked, setChecked] = useState(false);
   const checkboxChange = () => {
     setChecked(!checked);
   };
+  const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
-  const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
   useEffect(() => {
-    const results = newMoviesArray.filter((item) =>
+    const results = products.filter((item) =>
       item.title.toLocaleLowerCase().includes(value)
     );
     setSearchResults(results);
   }, [value]);
 
-  const onClick = (id: string | number) => {
-    navigate(id.toString());
+  const onProductClick = (id: string | number) => {
+    navigate("/" + id.toString());
   };
 
-  const clickId = (val: never) => {
+  const clickId = (val: number) => {
     if (idCart.includes(val)) {
       setIdCart(
         idCart.filter((f) => {
@@ -52,7 +55,7 @@ const Main = () => {
       <div className="filters">
         <p className="btn">Reset Filters</p> <p className="btn">Copy Link</p>
         <div className="filters__brand">
-          {newMoviesArray.map((it) => (
+          {products.map((it) => (
             <label key={it.title}>
               {it.brand}
               <input id={it.category} type="checkbox" />
@@ -81,9 +84,15 @@ const Main = () => {
         </div>
         <div className="product-container">
           {searchResults.map((item) => (
-            <div key={item.title} className="product-container__wrapper">
+            <div
+              key={item.id}
+              onClick={() => onProductClick(item.id)}
+              className="product-container__wrapper"
+            >
               <ProductCard
-                handler={() => clickId(item.id)}
+                handleAddToCart={() => {
+                  cartStorage.addItem(item.id);
+                }}
                 title={item.title}
                 thumbnail={item.thumbnail}
                 description={item.description}

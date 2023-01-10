@@ -5,17 +5,22 @@ type Props = {
   title: string;
   thumbnail: string;
   description: string;
-  handler: any;
+  handleAddToCart: Function;
 };
 
-function ProductCard({ title, thumbnail, description, handler }: Props) {
+function ProductCard({
+  title,
+  thumbnail,
+  description,
+  handleAddToCart,
+}: Props) {
   return (
     <div className="productCard">
       <h1 className="productCard__title">{title}</h1>
-      <img className="productCard__img" src={thumbnail} alt="img product" />
+      <img className="productCard__img" src={thumbnail} alt="product" />
       <p className="productCard__descr">{description}</p>
       <div className="productCard__btnWrapper">
-        <button onClick={handler} className="bntAdd">
+        <button onClick={handleAddToCart} className="bntAdd">
           add
         </button>
       </div>

@@ -1,14 +1,21 @@
+@use "/src/styles/utils.scss" as *;
+
 .cardProducts__bord-header {
+  @include blue-border-box;
   display: flex;
   padding-top: 10px;
   background-color: #93bff1;
 
   & h1 {
+    @include blue-border-box;
+
     font-size: 28px;
     margin-right: auto;
   }
 }
 .row {
+  @include blue-border-box;
+
   display: flex;
 }
 
@@ -17,6 +24,8 @@
 }
 
 .btnAddPiece {
+  @include blue-border-box;
+
   height: 30px;
   width: 30px;
   border: 1px solid black;
@@ -26,6 +35,8 @@
 }
 
 .btnDeletePiece {
+  @include blue-border-box;
+
   height: 30px;
   width: 30px;
   border: 1px solid black;
@@ -36,6 +47,8 @@
 }
 
 .number {
+  @include blue-border-box;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,6 +56,8 @@
 }
 
 .inputNumber {
+  @include blue-border-box;
+
   height: 32px;
   font-size: 24px;
   border: solid 2px black;
@@ -51,6 +66,8 @@
 }
 
 .summaryWrapper {
+  @include blue-border-box;
+
   display: flex;
   justify-content: center;
   width: 100%;
@@ -59,6 +76,8 @@
 }
 
 .paginator {
+  @include blue-border-box;
+
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
@@ -66,10 +85,14 @@
   justify-content: center;
 
   li {
+    @include blue-border-box;
+
     margin-right: 10px;
   }
 
   li a {
+    @include blue-border-box;
+
     border-radius: 7px;
     padding: 0.1rem 1rem;
     border: gray 1px solid;
@@ -81,6 +104,8 @@
     border-color: transparent;
   }
   li.active a {
+    @include blue-border-box;
+
     background-color: #0366d6;
     border-color: transparent;
     color: white;
@@ -96,6 +121,8 @@
 }
 
 .cartProducts {
+  @include blue-border-box;
+
   display: flex;
   flex-direction: row;
   &__bord {
@@ -128,6 +155,8 @@
   }
 }
 .product {
+  @include blue-border-box;
+
   padding: 10px;
   display: flex;
   width: 100%;
@@ -135,6 +164,8 @@
   box-sizing: border-box;
 
   &__number {
+    @include blue-border-box;
+
     display: flex;
     align-items: center;
     font-size: 32px;
@@ -142,29 +173,39 @@
   }
 
   &__img {
+    @include blue-border-box;
+
     width: 250px;
     height: 150px;
     margin: 10px;
   }
 
   &__discription {
+    @include blue-border-box;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-right: 20px;
 
     & .title {
+      @include blue-border-box;
+
       font-size: 24px;
       margin-bottom: 10px;
       text-decoration: underline;
     }
 
     & .subtitle {
+      @include blue-border-box;
+
       font-size: 16px;
       margin-bottom: 10px;
     }
 
     & .other {
+      @include blue-border-box;
+
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -172,16 +213,22 @@
   }
 
   &__numver-control {
+    @include blue-border-box;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
     & .stock {
+      @include blue-border-box;
+
       font-size: 20px;
       margin-bottom: 10px;
     }
     & .btnAdd {
+      @include blue-border-box;
+
       width: 20px;
       height: 20px;
       margin-bottom: 10px;
@@ -189,6 +236,8 @@
     }
 
     & .curent {
+      @include blue-border-box;
+
       font-size: 22px;
     }
   }

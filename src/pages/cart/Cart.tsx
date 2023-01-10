@@ -2,59 +2,36 @@ import { useEffect, useState } from "react";
 import newMoviesArray from "../../assets/data/products";
 import "./Cart.scss";
 import ReactPaginate from "react-paginate";
+import CartStorage from "../../components/cartObject/cart";
 
 const Cart = () => {
-  const arrIds = JSON.parse(localStorage.getItem("arr") || null);
+  const cartStorage = CartStorage.getInstance();
+  const arrIds = JSON.parse(localStorage.getItem("arr") || "0");
 
   const testList = newMoviesArray.filter((e) => arrIds.includes(e.id));
 
   const [count, setCount] = useState(testList);
 
-  const addCoun = (val:) => {
-    const resTest = count.map((count) => {
-      if (count.id == val) {
-        count.count++;
-      }
-      return count;
-    });
-    setCount(resTest);
+  const getProductsCount = () => {
+    return cartStorage.getData.length;
   };
 
-  const deleteCount = (val) => {
-    const resTest = count.map((count) => {
-      if (count.id == val) {
-        count.count--;
-      }
-      return count;
-    });
-    setCount(resTest);
+  const deleteCount = (val: number) => {
+    // const resTest = count.map((count) => {
+    //   if (count.id === val) {
+    //     count.count--;
+    //   }
+    //   return count;
+    // });
+    // setCount(resTest);
+    return 0;
   };
 
-  const addTotalMoney = () => {
-    const money:Array<Number> = [];
-    const addMoney = count.map((product) =>
-      money.push(product.count * product.price)
-    );
-
-    let result = money.reduce(function (sum:Number, elem:Number) {
-      return sum + elem;
-    }, 0);
-
+  const getTotalPrice = () => {
+    const result = 0;
+    cartStorage.getData();
     return result;
   };
-
-  const addTotal = () => {
-    const arr = [];
-    const total = count.map((t) => arr.push(t.count));
-
-    let result = arr.reduce(function (sum, elem) {
-      return sum + elem;
-    }, 0);
-
-    return result;
-  };
-
-  console.log(addTotalMoney());
 
   const [itemOffset, setItemOffset] = useState(0);
 
@@ -110,28 +87,27 @@ const Cart = () => {
                   </div>
                 </div>
                 <div className="product__numver-control">
-                  <p className="stock">
-                    Stock:{cartProduct.stock - cartProduct.count}
-                  </p>
+                  <p className="stock">Stock:{cartProduct.stock}</p>
                   <div className="number">
                     <button
-                      id={cartProduct.id}
+                      // id={cartProduct.id}
                       onClick={() => deleteCount(cartProduct.id)}
                       className="btnAddPiece"
                     >
                       -
                     </button>
-                    <p className="curent">{cartProduct.count}</p>
+                    {/* <p className="curent">{cartProduct}</p> */}
                     <button
-                      id={cartProduct.id}
-                      onClick={() => addCoun(cartProduct.id)}
+                      //id={cartProduct.id}
+                      // onClick={() => addCount(cartProduct.id)}
                       className="btnDeletePiece"
                     >
                       +
                     </button>
                   </div>
                   <p className="price">
-                    ${cartProduct.price * cartProduct.count}
+                    ${cartProduct.price}
+                    {/*умножить на число в корзине */}
                   </p>
                 </div>
               </div>
@@ -153,8 +129,8 @@ const Cart = () => {
             <h3 className="title">Info your products</h3>
           </div>
 
-          <p className="text">Products piece: {addTotal()}</p>
-          <p className="text">Total Price : {addTotalMoney()} $</p>
+          <p className="text">Total Products: {getProductsCount()}</p>
+          <p className="text">Total Price {getTotalPrice()} $</p>
           <input placeholder="promo code" />
           <button>Buy now</button>
         </div>
