@@ -1,5 +1,6 @@
 import "./Header.scss";
 import React, { Component } from "react";
+import { useNavigate } from "react-router-dom";
 
 // TODO add cart icon with counter of added products
 type HeaderProps = {
@@ -8,6 +9,7 @@ type HeaderProps = {
 };
 
 export default class Header extends Component<HeaderProps> {
+  navigate = useNavigate();
   render() {
     return (
       <header className="header">
@@ -18,7 +20,7 @@ export default class Header extends Component<HeaderProps> {
           <li className="nav__item">Cart total: {this.props.cartTotal}</li>
           <li className="nav__item">
             <img src="./assets/images/shopping-cart.png" alt="" />
-            <a href="/cart">To cart</a>
+            <a onClick={() => this.navigate("/cart")}>To cart</a>
           </li>
         </ul>
       </header>
