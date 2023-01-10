@@ -15,27 +15,32 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
   const [addressValid, setAddressValid] = useState<boolean>(false);
   const [emailValid, setEmailValid] = useState<boolean>(false);
 
+  //check if date is longer then 5 (2 for months, 2 for year, 1 for slash)
   const formatDate = (event: ChangeEvent) => {
     let input = event.target as HTMLInputElement;
-
     if (input.value.length > 5) {
       input.value = input.value.slice(0, 5);
     }
 
+    // check if user delete YY part of the date, delete slash
     if (input.value.length === 3 && !input.value.match(/^\d{2}\/\d{2}$/)) {
       input.value = input.value.slice(0, 2);
     }
 
+    // check if user entered 2 numbers, add slash
     if (input.value.length === 2 && input.value.match(/^\d+$/)) {
       input.value = input.value + "/";
     }
 
     if (input.value.length >= 2) {
       let month = input.value.slice(0, 2);
+      // if month is not valid, round it to the closest valid number
       if (Number(month) > 12) {
         input.value = "12/";
       } else if (Number(month) < 1) input.value = "01/";
     }
+
+    //  final check for MM/YY format, is everything is fine, date is valid
     if (input.value.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
       setDateValid(true);
     } else setDateValid(false);
@@ -43,39 +48,45 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
 
   const formatCCV = (event: ChangeEvent) => {
     let input = event.target as HTMLInputElement;
+    // forbid entering more then 3 numbers in the CVV field
     if (input.value.length > 3) {
       input.value = input.value.slice(0, 3);
     }
-    if (input.value.match(/^\d{3}$/)) {
-      setCVV(true);
-    } else setCVV(false);
+    setCVV(/^\d{3}$/.test(input.value));
   };
 
   const formatCard = (event: ChangeEvent) => {
     let input = event.target as HTMLInputElement;
+
+    // forbid entering more then 16 numbers in the card number field
     if (input.value.length > 16) {
       input.value = input.value.slice(0, 16);
     }
+
+    // check if card number is valid
     if (input.value.match(/^\d{16}$/)) {
       setCardValid(true);
-    } else setCardValid(false);
-
+    } else {
+      setCardValid(false);
+    }
+    // card number to determine payment system
     setCardState(input.value);
   };
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    // if everything is valid, when we click submit button, "process" the payment
     if (cardValid && CVVValid && dateValid) {
       alert("Заказ успешно оформлен!");
       setTimeout(() => {
         navigate("/");
       }, 5000);
 
-      //TODO clear cart
+      // TODO clear cart
     }
   };
 
-  //TODO I think there is a way to manage first 4 without setState
+  // TODO I think there is a way to manage first 4 without setState
   return (
     <div className="modal-background">
       <div className="modal-container">
@@ -134,19 +145,21 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
             type="number"
             pattern="^\d{16}$"
           />
-          <input
-            onChange={formatDate}
-            placeholder="MM/DD"
-            className="valid-thru"
-            type="text"
-          />
-          <input
-            onChange={formatCCV}
-            pattern="^\d{3}$"
-            placeholder="CCV"
-            className="ccv"
-            type="number"
-          />
+          <div className="date-n-ccv-container">
+            <input
+              onChange={formatDate}
+              placeholder="MM/DD"
+              className="valid-thru"
+              type="text"
+            />
+            <input
+              onChange={formatCCV}
+              pattern="^\d{3}$"
+              placeholder="CCV"
+              className="ccv"
+              type="number"
+            />
+          </div>
           <div className="cards-errors-container">
             {!cardValid && <p>Card Number Error</p>}
             {!CVVValid && <p>CVV Error</p>}
