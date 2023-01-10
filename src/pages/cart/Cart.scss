@@ -56,8 +56,6 @@
 }
 
 .inputNumber {
-  @include blue-border-box;
-
   height: 32px;
   font-size: 24px;
   border: solid 2px black;

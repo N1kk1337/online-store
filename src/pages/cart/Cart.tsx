@@ -36,16 +36,14 @@ const Cart = () => {
     return price;
   };
 
-  //const [num, setNumber] = useState(3);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [num, setNumber] = useState(3);
 
   const handleChange = (event: any) => {
-    return 3;
+    setNumber(event.target.value);
   };
 
-  // const handlePageClick = (event: any) => {
-  //   const newOffset = (event.selected * +num) % testList.length;
-  //   setItemOffset(newOffset);
-  // };
+  const endOffset = itemOffset + +num;
 
   const actualItems = () => {
     const res = products.filter(
@@ -59,6 +57,13 @@ const Cart = () => {
   useEffect(() => {
     setActualItemsArr(actualItems);
   }, []);
+
+  const handlePageClick = (event: any) => {
+    const newOffset = (event.selected * +num) % actualItems().length;
+    setItemOffset(newOffset);
+  };
+  const currentItems = actualItems().slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(actualItems().length / +num);
 
   console.log(actualItems());
 
@@ -95,16 +100,18 @@ const Cart = () => {
                 />
               </div>
             ))}
-            {/* <div className="paginator">
-              <ReactPaginate
-                className="row"
-                breakLabel="..."
-                nextLabel="next >"
-                //onPageChange=c{}
-                pageCount={3}
-                previousLabel="<prev"
-              />
-            </div> */}
+            {
+              <div className="paginator">
+                <ReactPaginate
+                  className="row"
+                  breakLabel="..."
+                  nextLabel="next >"
+                  onPageChange={handlePageClick}
+                  pageCount={pageCount}
+                  previousLabel="<prev"
+                />
+              </div>
+            }
           </div>
         </div>
         <div className="cartProducts__summary">
