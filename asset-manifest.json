@@ -1,16 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.039c4866.css",
-    "main.js": "/static/js/main.0f5021d1.js",
-    "static/js/787.a92fe09e.chunk.js": "/static/js/787.a92fe09e.chunk.js",
-    "static/media/error.png": "/static/media/error.af2e9a9e2d6a132c9c43.png",
-    "index.html": "/index.html",
-    "main.039c4866.css.map": "/static/css/main.039c4866.css.map",
-    "main.0f5021d1.js.map": "/static/js/main.0f5021d1.js.map",
-    "787.a92fe09e.chunk.js.map": "/static/js/787.a92fe09e.chunk.js.map"
+    "main.css": "/online-store/static/css/main.d0e79f92.css",
+    "main.js": "/online-store/static/js/main.5c0f92bc.js",
+    "static/js/787.a92fe09e.chunk.js": "/online-store/static/js/787.a92fe09e.chunk.js",
+    "static/media/wildcard.jpg": "/online-store/static/media/wildcard.54344da8644d30f44039.jpg",
+    "static/media/error.png": "/online-store/static/media/error.af2e9a9e2d6a132c9c43.png",
+    "static/media/visa.png": "/online-store/static/media/visa.90363059fb4fc8981ba4.png",
+    "static/media/mastercard.jpg": "/online-store/static/media/mastercard.780a8212e35dd51566cf.jpg",
+    "static/media/mir.svg": "/online-store/static/media/mir.2a484c5e48e49c018443baf022d0ca7a.svg",
+    "index.html": "/online-store/index.html",
+    "main.d0e79f92.css.map": "/online-store/static/css/main.d0e79f92.css.map",
+    "main.5c0f92bc.js.map": "/online-store/static/js/main.5c0f92bc.js.map",
+    "787.a92fe09e.chunk.js.map": "/online-store/static/js/787.a92fe09e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.039c4866.css",
-    "static/js/main.0f5021d1.js"
+    "static/css/main.d0e79f92.css",
+    "static/js/main.5c0f92bc.js"
   ]
 }
