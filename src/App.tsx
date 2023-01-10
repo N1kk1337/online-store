@@ -13,11 +13,11 @@ function App() {
     <div className="wrapper">
       <Header title={"Online Store"} cartTotal={1234} />
       <Routes>
-        <Route path="/online-store/" element={<Main />} />
-        <Route path="/online-store/details/:detailsId" element={<Details />} />
-        <Route path="/online-store/cart" element={<Cart />} />
-        <Route path="/online-store/404" element={<Error404 />} />
-        <Route path="*" element={<Navigate to="/online-store/404" replace />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/details/:detailsId" element={<Details />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/404" element={<Error404 />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
       <Footer />
     </div>

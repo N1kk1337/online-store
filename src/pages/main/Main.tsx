@@ -232,7 +232,7 @@ const Main = () => {
   // navigate to individual product page
   const navigate = useNavigate();
   const onProductClick = (id: string | number) => {
-    navigate("/online-store/details/" + id.toString());
+    navigate("/details/" + id.toString());
   };
 
   //localStorage.setItem("arr", JSON.stringify(idCart));
