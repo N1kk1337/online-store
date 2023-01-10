@@ -17,6 +17,7 @@ const Cart = () => {
   //   return data.slice(firstPageIndex, lastPageIndex);
   // }, [currentPage]);
 
+  console.log(localStorage);
   const cartStorage = CartStorage.getInstance();
   //const [itemCount, setItemCount] = useState<number>(1);
   const [actualItemsArr, setActualItemsArr] = useState<Array<Product>>([]);
@@ -58,6 +59,8 @@ const Cart = () => {
   useEffect(() => {
     setActualItemsArr(actualItems);
   }, []);
+
+  console.log(actualItems());
 
   const getProductsCount = () => {
     console.log(actualItemsArr.length);

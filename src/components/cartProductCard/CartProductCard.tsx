@@ -17,7 +17,6 @@ function CartProductCard({
   const [currentToBuy, setCurrentToBuy] = useState<number>(itemCount);
   return (
     <div className="product">
-      <div className="product__number"></div>
       <img
         className="product__img"
         alt="img productCart"

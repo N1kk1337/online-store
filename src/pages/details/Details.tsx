@@ -7,7 +7,6 @@ import getProductById from "./productById";
 const Details = () => {
   const t = useParams().detailsId;
   const productById = getProductById(t);
-  console.log(productById);
 
   return (
     <div className="details container">
