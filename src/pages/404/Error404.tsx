@@ -1,12 +1,21 @@
-import React, { Component } from "react";
 import "./Error404.scss";
+import errorImg from "../../assets/images/error.png";
+import { useNavigate } from "react-router-dom";
 
-export default class Error404 extends Component {
-  render() {
-    return (
-      <div className="error-container">
-        <p>404 Nothing here</p>
-      </div>
-    );
-  }
-}
+const Error404 = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="error-container">
+      <img
+        className="error-image"
+        onClick={() => {
+          navigate("/");
+        }}
+        src={errorImg}
+        alt="Error 404"
+      />
+    </div>
+  );
+};
+
+export default Error404;
