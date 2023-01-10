@@ -5,7 +5,10 @@ type Props = {
   title: string;
   thumbnail: string;
   description: string;
-  handleAddToCart: Function;
+  id: number;
+
+  handleAddToCart: (arg: number) => void;
+  handleNavigate: (arg: number) => void;
 };
 
 function ProductCard({
@@ -13,6 +16,8 @@ function ProductCard({
   thumbnail,
   description,
   handleAddToCart,
+  handleNavigate,
+  id,
 }: Props) {
   return (
     <div className="productCard">
@@ -20,11 +25,19 @@ function ProductCard({
       <img className="productCard__img" src={thumbnail} alt="product" />
       <p className="productCard__descr">{description}</p>
       <div className="productCard__btnWrapper">
-        <button onClick={handleAddToCart} className="bntAdd">
+        <button
+          onClick={() => {
+            handleAddToCart(id);
+            console.log("added " + id);
+          }}
+          className="bntAdd"
+        >
           add
         </button>
       </div>
-      <button className="bntDeteils">details</button>
+      <button onClick={() => handleNavigate(id)} className="bntDeteils">
+        details
+      </button>
     </div>
   );
 }

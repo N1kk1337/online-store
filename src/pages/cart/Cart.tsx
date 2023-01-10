@@ -1,54 +1,65 @@
-import { useEffect, useState } from "react";
-import newMoviesArray from "../../assets/data/products";
+import { useEffect, useMemo, useState } from "react";
 import "./Cart.scss";
 import ReactPaginate from "react-paginate";
 import CartStorage from "../../components/cartObject/cart";
+import getProductById from "../details/productById";
+import products from "../../assets/data/products";
+import CartProductCard from "../../components/cartProductCard/CartProductCard";
+import Product from "../../assets/model/product";
 
 const Cart = () => {
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const currentTableData = useMemo(() => {
+  //   const firstPageIndex = (currentPage - 1) * PageSize;
+  //   const lastPageIndex = firstPageIndex + PageSize;
+  //   return data.slice(firstPageIndex, lastPageIndex);
+  // }, [currentPage]);
+
   const cartStorage = CartStorage.getInstance();
-  const arrIds = JSON.parse(localStorage.getItem("arr") || "0");
-
-  const testList = newMoviesArray.filter((e) => arrIds.includes(e.id));
-
-  const [count, setCount] = useState(testList);
-
-  const getProductsCount = () => {
-    return cartStorage.getData.length;
-  };
-
-  const deleteCount = (val: number) => {
-    // const resTest = count.map((count) => {
-    //   if (count.id === val) {
-    //     count.count--;
-    //   }
-    //   return count;
-    // });
-    // setCount(resTest);
-    return 0;
-  };
+  //const [itemCount, setItemCount] = useState<number>(1);
+  const [actualItemsArr, setActualItemsArr] = useState<Array<Product>>([]);
 
   const getTotalPrice = () => {
-    const result = 0;
-    cartStorage.getData();
-    return result;
+    let price = 0;
+    for (let i = 0; i < actualItemsArr.length; i++) {
+      // console.log(i);
+      // console.log("id " + actualItemsArr[i].id);
+      console.log(cartStorage.getValueById(actualItemsArr[i].id));
+      price =
+        price +
+        actualItemsArr[i].price *
+          cartStorage.getValueById(actualItemsArr[i].id);
+    }
+    return price;
   };
 
-  const [itemOffset, setItemOffset] = useState(0);
-
-  const [num, setNumber] = useState(3);
+  //const [num, setNumber] = useState(3);
 
   const handleChange = (event: any) => {
-    setNumber(event.target.value);
+    return 3;
   };
 
-  const endOffset = itemOffset + +num;
+  // const handlePageClick = (event: any) => {
+  //   const newOffset = (event.selected * +num) % testList.length;
+  //   setItemOffset(newOffset);
+  // };
 
-  const currentItems = testList.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(testList.length / +num);
+  const actualItems = () => {
+    const res = products.filter(
+      (product) =>
+        !!cartStorage
+          .getData()
+          .find(([key, value]) => Number(key) === product.id)
+    );
+    return res;
+  };
+  useEffect(() => {
+    setActualItemsArr(actualItems);
+  }, []);
 
-  const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * +num) % testList.length;
-    setItemOffset(newOffset);
+  const getProductsCount = () => {
+    console.log(actualItemsArr.length);
+    return actualItemsArr.length;
   };
 
   return (
@@ -70,69 +81,34 @@ const Cart = () => {
             </label>
           </div>
           <div>
-            {currentItems.map((cartProduct) => (
-              <div key={cartProduct.description} className="product">
-                <div className="product__number"></div>
-                <img
-                  className="product__img"
-                  alt="img productCart"
-                  src={cartProduct.thumbnail}
+            {actualItems().map((item) => (
+              <div key={item.id}>
+                <CartProductCard
+                  itemCount={cartStorage.getValueById(item.id)}
+                  item={item}
+                  cartStorage={cartStorage}
                 />
-                <div className="product__discription">
-                  <h3 className="title">{cartProduct.title}</h3>
-                  <h5 className="subtitle">{cartProduct.description}</h5>
-                  <div className="product__discription other">
-                    <p>Rating:{cartProduct.rating}</p>
-                    <p>Discount:{cartProduct.discountPercentage}</p>
-                  </div>
-                </div>
-                <div className="product__numver-control">
-                  <p className="stock">Stock:{cartProduct.stock}</p>
-                  <div className="number">
-                    <button
-                      // id={cartProduct.id}
-                      onClick={() => deleteCount(cartProduct.id)}
-                      className="btnAddPiece"
-                    >
-                      -
-                    </button>
-                    {/* <p className="curent">{cartProduct}</p> */}
-                    <button
-                      //id={cartProduct.id}
-                      // onClick={() => addCount(cartProduct.id)}
-                      className="btnDeletePiece"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <p className="price">
-                    ${cartProduct.price}
-                    {/*умножить на число в корзине */}
-                  </p>
-                </div>
               </div>
             ))}
-            <div className="paginator">
+            {/* <div className="paginator">
               <ReactPaginate
                 className="row"
                 breakLabel="..."
                 nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageCount={pageCount}
+                //onPageChange=c{}
+                pageCount={3}
                 previousLabel="<prev"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="cartProducts__summary">
           <div className="summaryWrapper">
-            <h3 className="title">Info your products</h3>
+            <h3 className="title">Summary</h3>
           </div>
-
           <p className="text">Total Products: {getProductsCount()}</p>
           <p className="text">Total Price {getTotalPrice()} $</p>
-          <input placeholder="promo code" />
-          <button>Buy now</button>
+          <input placeholder="Enter promo code" />
         </div>
       </div>
     </div>

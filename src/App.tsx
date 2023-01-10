@@ -18,7 +18,6 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/:detailsId" element={<Details />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/details" element={<Details />} />
         <Route path="/404" element={<Error404 />} />
 
         <Route path="*" element={<Navigate to="/404" replace />} />

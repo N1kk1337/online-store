@@ -1,7 +1,8 @@
+import Product from "../../assets/model/product";
+import productById from "../../pages/details/productById";
+
 class Cart {
   private static instance: Cart;
-  private data: { [id: number]: number } = {};
-
   private constructor() {}
 
   static getInstance(): Cart {
@@ -11,31 +12,51 @@ class Cart {
     return Cart.instance;
   }
 
-  getData(): { [key: number]: number } {
-    return this.data;
+  // to iterate over storage, for some reason localStorage itself return [string, any][]
+  // instead of [string, any]
+  getData(): Array<[key: string, value: string]> {
+    const items: [string, string][] = Object.entries(localStorage).map(
+      ([key, value]) => {
+        return [key, JSON.parse(value)];
+      }
+    );
+    return items;
   }
 
-  setData(data: { [key: number]: number }): void {
-    this.data = data;
-  }
+  // setData(data: { [key: string]: string }): Storage {
+  //   localStorage = data;
+  // }
+  //localStorage.setItem(myData.key, JSON.stringify(myData.value));
+
   addItem(searchID: number): void {
-    if (searchID in this.data) {
-      this.data[searchID] += 1;
+    if (searchID in localStorage) {
+      localStorage.setItem(
+        searchID.toString(),
+        (Number(localStorage.getItem(searchID.toString()))! + 1).toString()
+      );
     } else {
-      this.data[searchID] = 1;
+      localStorage.setItem(searchID.toString(), "1");
     }
   }
 
   deleteItem(searchID: number): void {
-    if (searchID in this.data) {
-      this.data[searchID] -= 1;
-      if (this.data[searchID] === 0) {
-        delete this.data[searchID];
+    if (searchID in localStorage) {
+      localStorage.setItem(
+        searchID.toString(),
+        (Number(localStorage.getItem(searchID.toString()))! - 1).toString()
+      );
+      if (localStorage[searchID] <= 0) {
+        localStorage.removeItem(searchID.toString());
       }
     }
   }
+
   getValueById(searchID: number): number {
-    return this.data[searchID];
+    return Number(localStorage.getItem(searchID.toString()));
+  }
+
+  getProductFromCart(searchID: number): Product | undefined {
+    return productById(searchID);
   }
 }
 

@@ -14,12 +14,6 @@ const Main = () => {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
 
-  const [idCart, setIdCart] = useState<Array<number>>([]);
-
-  const [checked, setChecked] = useState(false);
-  const checkboxChange = () => {
-    setChecked(!checked);
-  };
   const [searchResults, setSearchResults] = useState<Array<Product>>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,19 +31,7 @@ const Main = () => {
     navigate("/" + id.toString());
   };
 
-  const clickId = (val: number) => {
-    if (idCart.includes(val)) {
-      setIdCart(
-        idCart.filter((f) => {
-          return f !== val;
-        })
-      );
-    } else setIdCart([...idCart, val]);
-  };
-
-  localStorage.setItem("arr", JSON.stringify(idCart));
-
-  console.log(localStorage);
+  //localStorage.setItem("arr", JSON.stringify(idCart));
   return (
     <div className="main-page container">
       <div className="filters">
@@ -84,15 +66,13 @@ const Main = () => {
         </div>
         <div className="product-container">
           {searchResults.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => onProductClick(item.id)}
-              className="product-container__wrapper"
-            >
+            <div key={item.id} className="product-container__wrapper">
               <ProductCard
+                id={item.id}
                 handleAddToCart={() => {
                   cartStorage.addItem(item.id);
                 }}
+                handleNavigate={() => onProductClick(item.id)}
                 title={item.title}
                 thumbnail={item.thumbnail}
                 description={item.description}
