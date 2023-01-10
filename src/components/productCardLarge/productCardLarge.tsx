@@ -18,11 +18,11 @@ function ProductCard({
   id,
 }: Props) {
   return (
-    <div className="productCard">
-      <h1 className="productCard__title">{title}</h1>
-      <img className="productCard__img" src={thumbnail} alt="product" />
+    <div className="product-card">
+      <h1 className="product-card__title">{title}</h1>
+      <img className="product-card__img" src={thumbnail} alt="product" />
       <p className="productCard__descr">{description}</p>
-      <div className="productCard__btnWrapper">
+      <div className="product-card__btnWrapper">
         <button
           onClick={() => {
             handleAddToCart(id);
