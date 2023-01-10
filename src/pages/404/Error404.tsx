@@ -9,7 +9,7 @@ const Error404 = () => {
       <img
         className="error-image"
         onClick={() => {
-          navigate("/");
+          navigate("/online-store/");
         }}
         src={errorImg}
         alt="Error 404"

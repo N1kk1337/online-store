@@ -18,7 +18,7 @@ export default class Header extends Component<HeaderProps> {
           <li className="nav__item">Cart total: {this.props.cartTotal}</li>
           <li className="nav__item">
             <img src="./assets/images/shopping-cart.png" alt="" />
-            <a href="/cart">To cart</a>
+            <a href="/online-store/cart">To cart</a>
           </li>
         </ul>
       </header>
