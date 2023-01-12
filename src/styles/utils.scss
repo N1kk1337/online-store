@@ -17,6 +17,13 @@ $blue: #2093e0;
   background-color: $blue;
 }
 
+@mixin center {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
 .container {
   max-width: 1600px;
   min-width: 1000px;

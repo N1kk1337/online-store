@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import ProductCard from "../../components/productCard/productCard";
 // import productsArray from "../../assets/data/products";
 import { useState } from "react";
@@ -12,7 +12,12 @@ import QueryData from "../../components/queryData/QueryData";
 import CheckboxList from "../../components/checkboxList/CheckboxList";
 import { SortOptions } from "../../types/types";
 import ProductCardLarge from "../../components/productCardLarge/productCardLarge";
-const Main = () => {
+
+type MainProps = {
+  handleChangeCart: Array<() => void>;
+};
+
+const Main: React.FC<MainProps> = ({ handleChangeCart }) => {
   // filters
   const overallMinPrice = Math.min(...products.map((o) => o.price));
   const overallMaxPrice = Math.max(...products.map((o) => o.price));
@@ -20,7 +25,6 @@ const Main = () => {
   const overallMaxStock = Math.max(...products.map((o) => o.stock));
 
   // TODO move to one reusable component
-
   const [queryParams, setQueryParams] = useSearchParams({ search: "" });
   const [copyButtonText, setCopyButtonText] = useState("Copy Link");
   const [selectedBrands, setSelectedBrands] = useState<string[]>(
@@ -85,7 +89,7 @@ const Main = () => {
     setMaxPrice(overallMaxPrice);
     setMinStock(overallMinStock);
     setMaxStock(overallMaxStock);
-    setSort("By Name");
+    setSort("ByNameAscending");
     setReset(true);
   };
   useEffect(() => {
@@ -201,9 +205,24 @@ const Main = () => {
               Math.max(...products.map((o) => o.stock)))
         );
       });
-    if (sort === "By Name")
-      results = results.sort((a, b) => a.title.localeCompare(b.title));
-    else results = results.sort((a, b) => a.price - b.price);
+    switch (sort) {
+      case "ByNameDescending":
+        results = results
+          .sort((a, b) => a.title.localeCompare(b.title))
+          .reverse();
+        break;
+      case "ByNameAscending":
+        results = results.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+
+      case "ByPriceAscending":
+        results = results.sort((a, b) => a.price - b.price);
+        break;
+
+      case "ByPriceDescending":
+        results = results.sort((a, b) => a.price - b.price).reverse();
+        break;
+    }
     queryObject.brands = selectedBrands;
     queryObject.categories = selectedCategories;
     // setMinPrice(queryObject.minPrice);
@@ -293,8 +312,11 @@ const Main = () => {
           <p className="btn product-list__sort-options">
             Sort{" "}
             <select value={sort} onChange={handleSortChange}>
-              <option value="By Name">By Name</option>
-              <option value="By Price">By Price</option>
+              <option value="ByNameAscending">By Name A - Z</option>
+              <option value="ByNameDescending">By Price Z - A</option>
+              <option value="ByPriceAscending">Low Price First</option>
+
+              <option value="ByPriceDescending">High Price First</option>
             </select>
           </p>
           <p className="product-list__found">Found:{searchResults.length}</p>
@@ -319,19 +341,13 @@ const Main = () => {
           {searchResults.length === 0 && (
             <h2>Ничего не нашлось, попробуйте сузить критерии поиска </h2>
           )}
-
           {searchResults.map((item) => (
-            <div
-              key={item.id}
-              // onClick={() => onProductClick(item.id)}
-              className="product-container__wrapper"
-            >
+            <div key={item.id} className="product-container__wrapper">
               {view ? (
                 <ProductCardLarge
+                  price={item.price}
                   id={item.id}
-                  handleAddToCart={() => {
-                    cartStorage.addItem(item.id);
-                  }}
+                  handleChangeCart={handleChangeCart}
                   handleNavigate={() => onProductClick(item.id)}
                   title={item.title}
                   thumbnail={item.thumbnail}
@@ -339,10 +355,9 @@ const Main = () => {
                 />
               ) : (
                 <ProductCard
+                  price={item.price}
                   id={item.id}
-                  handleAddToCart={() => {
-                    cartStorage.addItem(item.id);
-                  }}
+                  handleChangeCart={handleChangeCart}
                   handleNavigate={() => onProductClick(item.id)}
                   title={item.title}
                   thumbnail={item.thumbnail}

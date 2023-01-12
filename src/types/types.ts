@@ -1,1 +1,5 @@
-export type SortOptions = "By Name" | "By Price";
+export type SortOptions =
+  | "ByNameAscending"
+  | "ByNameDescending"
+  | "ByPriceAscending"
+  | "ByPriceDescending";
