@@ -3,9 +3,10 @@ $black: #383c3d;
 $blue: #2093e0;
 
 @mixin blue-border-box {
-  border: 2px solid $blue;
+  border: 4px solid $blue;
   border-radius: 10px;
   padding: 3px;
+  margin: 4px 4px;
 }
 
 @mixin blue-button {
@@ -14,6 +15,13 @@ $blue: #2093e0;
   padding: 3px;
   color: $white;
   background-color: $blue;
+}
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
 }
 
 .container {

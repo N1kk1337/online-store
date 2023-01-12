@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import "./productCard.scss";
+import "./productCardLarge.scss";
 import CartStorage from "../cartObject/cart";
-
+import { useEffect, useState } from "react";
 type Props = {
   title: string;
   thumbnail: string;
   description: string;
   id: number;
   price: number;
+
   handleNavigate: (arg: number) => void;
   handleChangeCart: Array<() => void>;
 };
@@ -38,13 +38,13 @@ function ProductCard({
   }, []);
 
   return (
-    <div className="productCard">
-      <h1 className="productCard__title">{title}</h1>
-      <img className="productCard__img" src={thumbnail} alt="product" />
+    <div className="product-card">
+      <h1 className="product-card__title">{title}</h1>
+      <img className="product-card__img" src={thumbnail} alt="product" />
       <p className="productCard__descr">{description}</p>
-      <div className="productCard__btnWrapper">
+      <div className="product-card__btnWrapper">
         <button onClick={handleAddClick} className="bntAdd">
-          {buttonState ? <p>Add to Cart</p> : <p>Drop from Cart</p>}{" "}
+          {buttonState ? <p>Add to Cart</p> : <p>Drop from Cart</p>}
         </button>
       </div>
       <button onClick={() => handleNavigate(id)} className="bntDeteils">

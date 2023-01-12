@@ -1,0 +1,156 @@
+@use "/src/styles/utils.scss" as *;
+
+.modal-background {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.modal-container {
+  @include blue-border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 20px;
+  max-width: 30%;
+  @media (max-width: 600px) {
+    max-width: 90%;
+  }
+
+  background: $white;
+  color: $black;
+  z-index: 10;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-text {
+}
+.name {
+  @include blue-border-box;
+  &:invalid {
+    border-color: red;
+  }
+}
+
+.phone-number {
+  @include blue-border-box;
+  &:invalid {
+    border-color: red;
+  }
+}
+
+.address {
+  @include blue-border-box;
+  &:invalid {
+    border-color: red;
+  }
+}
+
+.email {
+  @include blue-border-box;
+  &:invalid {
+    border-color: red;
+  }
+}
+
+.card-container {
+  @include blue-border-box;
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+}
+
+.card-img {
+  border: 2px solid $blue;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+.card-number {
+  @include blue-border-box;
+  width: 100%;
+  &:invalid {
+    border-color: red;
+  }
+}
+
+.valid-thru {
+  @include blue-border-box;
+  width: 45%;
+  &:invalid {
+    border-color: red;
+  }
+}
+
+.ccv {
+  @include blue-border-box;
+  width: 45%;
+  &:invalid {
+    border-color: red;
+  }
+  /* Chrome, Safari, Edge, Opera */
+
+  -webkit-appearance: none;
+
+  -moz-appearance: textfield;
+}
+.date-n-ccv-container {
+  display: flex;
+  width: 100%;
+}
+.cards-errors-container {
+  @include blue-border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.submit-btn {
+  @include blue-border-box;
+}
+
+.phone-number-error,
+.name-error,
+.email-error,
+.address-error {
+  color: red;
+}
+
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.header-text,
+.subheader-text {
+  font-size: 30px;
+  @include blue-border-box;
+}
+
+.exit-btn,
+.submit-btn {
+  @include blue-border-box;
+  width: 200px;
+}

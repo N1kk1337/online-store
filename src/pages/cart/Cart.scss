@@ -1,0 +1,257 @@
+@use "/src/styles/utils.scss" as *;
+
+.cardProducts__bord-header {
+  @include blue-border-box;
+  display: flex;
+  & h1 {
+    @include blue-border-box;
+
+    font-size: 28px;
+    margin-right: auto;
+  }
+}
+.row {
+  @include blue-border-box;
+
+  display: flex;
+}
+
+.textInpunNumber {
+  font-size: 22px;
+}
+
+.btnAddPiece {
+  @include blue-border-box;
+
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  border-radius: 100%;
+  background-color: rgb(244, 113, 113);
+  margin-bottom: 10px;
+}
+
+.btnDeletePiece {
+  @include blue-border-box;
+
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  border-radius: 100%;
+  background-color: rgb(131, 233, 131);
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.number {
+  @include blue-border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputNumber {
+  height: 32px;
+  font-size: 24px;
+  border: solid 2px black;
+  border-radius: 6px;
+  background-color: rgb(160, 241, 160);
+}
+
+.paginator {
+  @include blue-border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  li {
+    @include blue-border-box;
+
+    margin-right: 10px;
+  }
+
+  li a {
+    @include blue-border-box;
+
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    border: gray 1px solid;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a,
+  li.break a {
+    border-color: transparent;
+  }
+  li.active a {
+    @include blue-border-box;
+
+    background-color: #0366d6;
+    border-color: transparent;
+    color: white;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: grey;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+}
+
+.cartProducts {
+  @include blue-border-box;
+
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  &__summary {
+    @include blue-border-box;
+
+    display: flex;
+    flex-direction: column;
+
+    max-width: 30%;
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    & .title {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    & .text {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.cardProducts__bord {
+  @include blue-border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.product {
+  @include blue-border-box;
+
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__img {
+    width: 250px;
+    height: 150px;
+    margin: 10px;
+  }
+
+  &__discription {
+    @include blue-border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 20px;
+
+    & .title {
+      @include blue-border-box;
+
+      font-size: 24px;
+      margin-bottom: 10px;
+      text-decoration: underline;
+    }
+
+    & .subtitle {
+      @include blue-border-box;
+
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    & .other {
+      @include blue-border-box;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__numver-control {
+    @include blue-border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .stock {
+      @include blue-border-box;
+
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    & .btnAdd {
+      @include blue-border-box;
+
+      width: 20px;
+      height: 20px;
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+    & .curent {
+      @include blue-border-box;
+
+      font-size: 22px;
+    }
+  }
+}
+.active-promo-code {
+  @include center;
+  @include blue-border-box;
+  gap: 4px;
+  width: 100%;
+  justify-content: space-between;
+
+  & button {
+    @include blue-button;
+  }
+}
+.active-promo-container {
+  @include center;
+  flex-direction: column;
+  @include blue-border-box;
+}
+
+.active-promo-list {
+  @include center;
+  width: 100%;
+}
+
+.price-container {
+  margin: 10px;
+  flex-direction: column;
+  gap: 8px;
+
+  @include center;
+}
+
+.promo-input {
+  @include blue-border-box;
+}
+.open-modal-btn {
+  @include blue-button;
+  padding: 10px;
+}
