@@ -1,19 +1,18 @@
-import React from "react";
 import { useParams } from "react-router-dom";
-
 import "./details.scss";
 import getProductById from "./productById";
 
-const Details = () => {
+type DetailsProps = {
+  cartVal: number;
+  handleChangeCart: Array<() => void>;
+};
+
+const Details = ({ cartVal, handleChangeCart }: DetailsProps) => {
   const t = useParams().detailsId;
   const productById = getProductById(t);
-  console.log(productById);
 
   return (
     <div className="details container">
-      <div className="details__route">
-        <p></p>
-      </div>
       <div className="details-card">
         <div className="details-card__header">{productById?.brand}</div>
         <div className="details-card__images-container">
@@ -64,8 +63,24 @@ const Details = () => {
         </div>
         <div className="details-card__controls">
           <p className="details-card__price">{productById?.price}</p>
-          <button className="details__button">DROP FROM CART</button>
-          <button className="details__button">BUY NOW</button>
+          <button
+            className="details__button"
+            onClick={() => {
+              handleChangeCart[0]();
+              handleChangeCart[1]();
+            }}
+          >
+            DROP FROM CART
+          </button>
+          <button
+            className="details__button"
+            onClick={() => {
+              handleChangeCart[0]();
+              handleChangeCart[1]();
+            }}
+          >
+            BUY NOW
+          </button>
         </div>
       </div>
     </div>

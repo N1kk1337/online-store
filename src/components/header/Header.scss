@@ -1,7 +1,7 @@
 @use "/src/styles/reset.scss";
 @use "/src/styles/utils.scss" as *;
 .header {
-  padding: 4px;
+  padding: 8px;
   background-color: $blue;
   width: 100%; //fallback
   width: 100vw;
@@ -10,6 +10,7 @@
   align-items: center;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  font-size: 34px;
 }
 .header__nav {
   display: flex;
@@ -17,8 +18,21 @@
   align-items: center;
   gap: 20px;
 }
+.cart-btn {
+  @include blue-border-box;
+  background-color: $white;
+  font-size: inherit;
+  padding: 6px 12px;
+  cursor: pointer;
+}
 
 .nav__item {
-  border: 1px solid $blue;
   min-width: 20px;
+}
+
+.header-logo {
+  @include blue-border-box;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: $white;
 }

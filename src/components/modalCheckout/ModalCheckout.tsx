@@ -77,7 +77,9 @@ const ModalCheckout: FC<ModalCheckoutProps> = ({ setIsOpen }) => {
   const handleSubmit = () => {
     // if everything is valid, when we click submit button, "process" the payment
     if (cardValid && CVVValid && dateValid) {
-      alert("Заказ успешно оформлен!");
+      alert(
+        "Заказ успешно оформлен! Через 5 секунд вас перенаправит на главную страницу!"
+      );
       setTimeout(() => {
         navigate("/");
       }, 5000);

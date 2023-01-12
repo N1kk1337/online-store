@@ -7,9 +7,11 @@ type CartProductCardProps = {
   item: Product;
   cartStorage: CartStorage;
   itemCount: number;
+  handleChangeCart: Array<() => void>;
 };
 
 function CartProductCard({
+  handleChangeCart,
   item,
   cartStorage,
   itemCount,
@@ -17,7 +19,6 @@ function CartProductCard({
   const [currentToBuy, setCurrentToBuy] = useState<number>(itemCount);
   return (
     <div className="product">
-      <div className="product__number"></div>
       <img
         className="product__img"
         alt="img productCart"
@@ -41,6 +42,8 @@ function CartProductCard({
             onClick={() => {
               cartStorage.deleteItem(item.id);
               setCurrentToBuy(cartStorage.getValueById(item.id));
+              handleChangeCart[0]();
+              handleChangeCart[1]();
             }}
             className="btnAddPiece"
           >
@@ -49,8 +52,11 @@ function CartProductCard({
           {<p className="curent">{currentToBuy}</p>}
           <button
             onClick={() => {
-              cartStorage.addItem(item.id);
+              if (item.stock !== cartStorage.getValueById(item.id))
+                cartStorage.addItem(item.id);
               setCurrentToBuy(cartStorage.getValueById(item.id));
+              handleChangeCart[0]();
+              handleChangeCart[1]();
             }}
             className="btnDeletePiece"
           >

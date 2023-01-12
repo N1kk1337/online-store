@@ -1,6 +1,8 @@
 import Product from "../../assets/model/product";
 import productById from "../../pages/details/productById";
+import products from "../../assets/data/products";
 
+// this class help to  manipulate local storage
 class Cart {
   private static instance: Cart;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -24,11 +26,27 @@ class Cart {
     return items;
   }
 
-  // setData(data: { [key: string]: string }): Storage {
-  //   localStorage = data;
-  // }
-  //localStorage.setItem(myData.key, JSON.stringify(myData.value));
+  // returns array of items that are in the cart
+  getActualItems = () => {
+    const res = products.filter((product) =>
+      this.getData().find(([key, value]) => Number(key) === product.id)
+    );
+    return res;
+  };
+  getTotalPrice = () => {
+    let price = 0;
+    for (const product of products) {
+      price = price + product.price * this.getValueById(product.id);
+    }
 
+    return price;
+  };
+
+  getTotalNumber(): number {
+    const items = this.getData();
+    const total = items.reduce((sum, item) => sum + Number(item[1]), 0);
+    return total;
+  }
   addItem(searchID: number): void {
     if (searchID in localStorage) {
       localStorage.setItem(

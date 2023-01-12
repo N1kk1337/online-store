@@ -51,7 +51,7 @@ class QueryData implements QueryDataInterface {
     maxPrice: number,
     minStock = 0,
     maxStock: number,
-    sort: SortOptions = "By Name",
+    sort: SortOptions = "ByNameAscending",
     view: boolean = false
   ) {
     this.search = search;
@@ -73,7 +73,7 @@ class QueryData implements QueryDataInterface {
     maxPrice: number,
     minStock: number = 0,
     maxStock: number,
-    sort: SortOptions = "By Name",
+    sort: SortOptions = "ByNameAscending",
     view: boolean
   ): QueryData {
     if (!QueryData.instance) {
@@ -134,7 +134,7 @@ class QueryData implements QueryDataInterface {
 
     url += this.minStock !== 0 ? "&minStock=" + this.minStock : "";
     url += this.maxStock !== 0 ? "&maxStock=" + this.maxStock : "";
-    url += this.sort !== "By Name" ? "&sort=" + this.sort : "";
+    url += this.sort !== "ByNameAscending" ? "" : "&sort=" + this.sort;
     url += this.view ? "&view=" + this.view : "";
 
     return url;
